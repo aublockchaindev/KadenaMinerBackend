@@ -1,4 +1,4 @@
-import Pact from "pact-lang-api";
+const Pact = require("pact-lang-api");
 const API_HOST = "http://localhost:9001";
 const KP = Pact.crypto.genKeyPair();
 const express = require("express");
@@ -17,17 +17,26 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const mintContractService = async (req) => {
+  console.log("mintContractService is called")
   try {
-    const mintInput = JSON.parse(req);
-    const createdDate = new Date(mintInput.created-date)
+    const mintInput = req.body;
+    //const mintInput = JSON.parse(req.body);
+    const createdDate = new Date(mintInput.createdDate);
+/*
+    console.log("mintInput.ownerAddress", mintInput.ownerAddress);
+    console.log("mintInput.createdDate", createdDate);
+    console.log("mintInput.nftValue", mintInput.nftValue);
+    console.log("mintInput.hashRate", mintInput.hashRate);
+*/
     const cmdObj = {
-      pactCode: Pact.lang.mkExp('kor-nft.set-values', mintInput.owner-address, mintInput.nft-value, createdDate, mintInput.hash-rate),
+      pactCode: Pact.lang.mkExp('kor-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, createdDate, mintInput.hashRate),
       keyPairs: KP
     };
 
     Pact.fetch.send(cmdObj, API_HOST);
     return true;
   } catch (err) {
+    console.log("err: " + err)
     return false;
   }
 };
@@ -84,4 +93,4 @@ app.get("/api/balanceHashrate", async (req, res) => {
   res.json(balancejson);
 });
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(9092);
