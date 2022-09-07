@@ -1,4 +1,4 @@
-require Pact from "pact-lang-api";
+const Pact = require("pact-lang-api");
 const API_HOST = "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact";
 const KP = Pact.crypto.genKeyPair();
 const express = require("express");
