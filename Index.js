@@ -25,7 +25,7 @@ const mintContractService = async (req) => {
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
     const cmdObj = {
-      pactCode: Pact.lang.mkExp('kor-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
+      pactCode: Pact.lang.mkExp('kor-create-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
       keyPairs: KP,
       meta: {
         creationTime: creationTime(),
