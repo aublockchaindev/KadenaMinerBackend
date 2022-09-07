@@ -9,6 +9,7 @@ const fs = require("fs");
 var http = require('http');
 const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
+const CHAIN_ID = '1';
 
 app.use(
   cors({
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 const mintContractService = async (req) => {
   try {
     const mintInput = JSON.parse(req);
+    const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
     const cmdObj = {
       pactCode: Pact.lang.mkExp('kor-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
