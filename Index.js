@@ -133,4 +133,4 @@ app.get("/api/balanceHashrate", async (req, res) => {
   res.json(balancejson);
 });
 
-http.createServer(app).listen(80);
+http.createServer(app).listen(9092);
