@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const mintContractService = async (req) => {
   try {
+    console.log("I am here"};
     const mintInput = JSON.parse(req);
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
