@@ -24,6 +24,7 @@ const mintContractService = async (req) => {
     const mintInput = JSON.parse(req);
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
+    console.log("time created");
     const cmdObj = {
       pactCode: Pact.lang.mkExp('kor-create-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
       keyPairs: KP,
@@ -36,7 +37,7 @@ const mintContractService = async (req) => {
         sender: KP.publicKey // the account paying for gas
       }
     };
-    
+    console.log(cmdObj);
 
     Pact.fetch.send(cmdObj, API_HOST);
     return true;
