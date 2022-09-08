@@ -10,6 +10,7 @@ var http = require('http');
 const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
+const createdDate = new Date();
 
 app.use(
   cors({
@@ -56,7 +57,9 @@ const mintContractService = async (req) => {
   }
 console.log(cmdObj);
 
-    Pact.fetch.send(cmdObj, API_HOST);
+    //Pact.fetch.send(cmdObj, API_HOST);
+    const response = await Pact.fetch.send(cmdObj, API_HOST);
+    console.log(response);
     return true;
   } catch (err) {
     return false;
