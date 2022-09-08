@@ -134,9 +134,9 @@ app.post("/api/mintContract", async (req, res) => {
   console.log("=== mintContract api is called ===");
   const minted = mintContractService(req);
   console.log("=== mintContract result" + minted);
-  //const transactionId = minted.requestKeys[0];
-  //console.log("Transaction Id" + transactionId);
-  if (minted) res.json({ status: "Success"});
+  const transactionId = minted.requestKeys[0];
+  console.log("Transaction Id" + transactionId);
+  if (minted) res.json({ status: transactionId});
   else res.json({ status: "fail" });
 });
 app.get("/api/getMiners", async (req, res) => {
