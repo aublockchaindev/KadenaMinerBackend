@@ -1,4 +1,5 @@
 const Pact = require("pact-lang-api");
+const { v4: uuidv4 } = require('uuid');
 const API_HOST = "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact";
 const KP = Pact.crypto.genKeyPair();
 const express = require("express");
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const mintContractService = async (req) => {
   try {
+    const nftId = uuidv4();
     console.log("I am here" + req);
     //const mintInput = JSON.parse(req);
     const mintInput = req.body;
@@ -33,7 +35,7 @@ const mintContractService = async (req) => {
    keyPairs: KP,
   
     networkId: 'testnet04',
-    pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
+    pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,nftId,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
     keyPairs: {
       publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
       secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829'
