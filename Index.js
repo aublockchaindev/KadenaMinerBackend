@@ -134,7 +134,7 @@ app.post("/api/distribute", async (req, res) => {
 });
 app.post("/api/mintContract", async (req, res) => {
   console.log("=== mintContract api is called ===");
-  const minted = mintContractService(req);
+  const minted = await mintContractService(req);
   console.log("=== mintContract result" + minted);
  // const transactionId = minted.requestKeys[0];
   //console.log("Transaction Id" + transactionId);
