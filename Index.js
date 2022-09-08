@@ -133,8 +133,8 @@ app.post("/api/distribute", async (req, res) => {
 app.post("/api/mintContract", async (req, res) => {
   console.log("=== mintContract api is called ===");
   const minted = mintContractService(req);
-  const transacrtionid = minted.requestKeys[0];
-  if (minted) res.json({ status: transacrtionid});
+  const transactionId = minted.requestKeys[0];
+  if (minted) res.json({ status: transactionId});
   else res.json({ status: "fail" });
 });
 app.get("/api/getMiners", async (req, res) => {
