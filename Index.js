@@ -29,33 +29,32 @@ const mintContractService = async (req) => {
     //const createdDate = new Date(mintInput.created-date);
     console.log("time created" + mintInput.ownerAddress);
  const cmdObj = {
-    keyPairs: KP,
-   
-     networkId: 'testnet04',
-
-     pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
-     keyPairs: {
-       publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
-       secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829'
-     },
-     envData: {
-             "kor-project-keyset-658453494": {
-                 "keys": [
-                     "e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5"
-                 ],
-                 "pred": "keys-any"
-             }
-       },
-     meta: {
-       creationTime: creationTime(),
-       ttl: 28000,
-       gasLimit: 65000,
-       chainId: '1',
-       gasPrice: 0.000001,
-       sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
-     },
-    }
-    console.log(cmdObj);
+   keyPairs: KP,
+  
+    networkId: 'testnet04',
+    pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
+    keyPairs: {
+      publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
+      secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829'
+    },
+    envData: {
+            "kor-project-keyset-658453494": {
+                "keys": [
+                    "e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5"
+                ],
+                "pred": "keys-any"
+            }
+      },
+    meta: {
+      creationTime: creationTime(),
+      ttl: 28000,
+      gasLimit: 65000,
+      chainId: '1',
+      gasPrice: 0.000001,
+      sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
+    },
+  }
+console.log(cmdObj);
 
     Pact.fetch.send(cmdObj, API_HOST);
     return true;
