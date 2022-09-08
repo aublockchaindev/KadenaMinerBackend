@@ -60,7 +60,9 @@ console.log(cmdObj);
     //Pact.fetch.send(cmdObj, API_HOST);
     const response = await Pact.fetch.send(cmdObj, API_HOST);
     console.log(response);
-    return response;
+    const reqKey = response.requestKeys[0];
+          console.log("Request keys is: ", reqKey);
+    return reqKey;
     //return true;
   } catch (err) {
     return false;
@@ -136,8 +138,8 @@ app.post("/api/mintContract", async (req, res) => {
   console.log("=== mintContract result" + minted);
  // const transactionId = minted.requestKeys[0];
   //console.log("Transaction Id" + transactionId);
-  //if (minted) res.json({ status: transactionId});
-  if (minted) res.json({ status: "Success"});
+  if (minted) res.json({ status: minted});
+  //if (minted) res.json({ status: "Success"});
   else res.json({ status: "fail" });
 });
 app.get("/api/getMiners", async (req, res) => {
