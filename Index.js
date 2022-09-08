@@ -54,7 +54,7 @@ const mintContractService = async (req) => {
        gasPrice: 0.000001,
        sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
      },
-    };
+    }
     console.log(cmdObj);
 
     Pact.fetch.send(cmdObj, API_HOST);
