@@ -60,7 +60,8 @@ console.log(cmdObj);
     //Pact.fetch.send(cmdObj, API_HOST);
     const response = await Pact.fetch.send(cmdObj, API_HOST);
     console.log(response);
-    return true;
+    return response;
+    //return true;
   } catch (err) {
     return false;
   }
@@ -132,7 +133,8 @@ app.post("/api/distribute", async (req, res) => {
 app.post("/api/mintContract", async (req, res) => {
   console.log("=== mintContract api is called ===");
   const minted = mintContractService(req);
-  if (minted) res.json({ status: "success" });
+  const transacrtionid = minted.requestKeys[0];
+  if (minted) res.json({ status: transacrtionid});
   else res.json({ status: "fail" });
 });
 app.get("/api/getMiners", async (req, res) => {
