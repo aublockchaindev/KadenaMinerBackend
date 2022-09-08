@@ -28,17 +28,32 @@ const mintContractService = async (req) => {
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
     console.log("time created" + mintInput.ownerAddress);
-    const cmdObj = {
-      pactCode: Pact.lang.mkExp('kor-create-nft.set-values', mintInput.ownerAddress, mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
-      keyPairs: KP,
-      meta: {
-        creationTime: creationTime(),
-        ttl: 28000,
-        gasLimit: 65000,
-        chainId: CHAIN_ID,
-        gasPrice: 0.000001,
-        sender: KP.publicKey // the account paying for gas
-      }
+ const cmdObj = {
+    keyPairs: KP,
+   
+     networkId: 'testnet04',
+
+     pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
+     keyPairs: {
+       publicKey: 'ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d',
+       secretKey: '8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332'
+     },
+     envData: {
+             "kor-project-keyset-658453494": {
+                 "keys": [
+                     "e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5"
+                 ],
+                 "pred": "keys-any"
+             }
+       },
+     meta: {
+       creationTime: creationTime(),
+       ttl: 28000,
+       gasLimit: 65000,
+       chainId: '1',
+       gasPrice: 0.000001,
+       sender: 'ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d'
+     },
     };
     console.log(cmdObj);
 
