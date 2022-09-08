@@ -25,7 +25,7 @@ const mintContractService = async (req) => {
     console.log("I am here" + req);
     //const mintInput = JSON.parse(req);
     const mintInput = req.body;
-    console.log("I am here" + mintInput);
+    console.log("I am here" + mintInput.ownerAddress);
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
     console.log("time created" + mintInput.ownerAddress);
