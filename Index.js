@@ -35,8 +35,8 @@ const mintContractService = async (req) => {
 
      pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate),
      keyPairs: {
-       publicKey: 'ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d',
-       secretKey: '8693e641ae2bbe9ea802c736f42027b03f86afe63cae315e7169c9c496c17332'
+       publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
+       secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829'
      },
      envData: {
              "kor-project-keyset-658453494": {
@@ -52,7 +52,7 @@ const mintContractService = async (req) => {
        gasLimit: 65000,
        chainId: '1',
        gasPrice: 0.000001,
-       sender: 'ba54b224d1924dd98403f5c751abdd10de6cd81b0121800bf7bdbdcfaec7388d'
+       sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
      },
     };
     console.log(cmdObj);
