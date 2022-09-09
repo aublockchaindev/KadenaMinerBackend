@@ -72,58 +72,116 @@ console.log(cmdObj);
   }
 };
 const distributeFunds = async () => {
-  try {
-    const payout = await fetch('https://poolflare.net/api/v1/coin/kda/account/96f223435bbbfc2c68ca6887c60fa8dfe575a19930a7c86b9a4a9cf0d89a8868/payouts');
+  try {const creationTime = () => Math.round((new Date).getTime() / 1000);
+
+const cmdObj = {
+
+    networkId: 'testnet04',
+    pactCode: Pact.lang.mkExp('free.kor-create-nft.get-allvalues'),
+    meta: Pact.lang.mkMeta('e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5','1', 0.0001, 100000, creationTime(), 600)
+
+  };
+
+const response = await Pact.fetch.local(cmdObj, API_HOST);
+
+
+const payout = await fetch('https://poolflare.net/api/v1/coin/kda/account/96f223435bbbfc2c68ca6887c60fa8dfe575a19930a7c86b9a4a9cf0d89a8868/payouts');
 const payoutJsonArray = await payout.json(); //extract JSON from the poolflare response
 
-const File = "./files/lastpayment.json";
+const File = "lastpayment.json";
 const Data = fs.readFileSync(File);
 const jsonTime = JSON.parse(Data);
-const time = jsonTime.date;
-let amount =0;
+const lastpaymenttime = jsonTime.date;
+let amount =0.0;
 for (let i in payoutJsonArray.data.payouts){
     let timestamp = payoutJsonArray.data.payouts[i].timestamp;
 
-    if (timestamp > time) {
+    if (timestamp > lastpaymenttime ) {
         amount = amount + Number(payoutJsonArray.data.payouts[i].amount);
       }
-} 
-const dateToday = new Date();
-var timestamp = Math.floor(dateToday.getTime()/1000.0);
-var dict ={};
-dict["date"]=timestamp;
-fs.writeFileSync("./files/lastpayment.json",JSON.stringify(dict));
-const cmdObj1 = {
-  pactCode: ('kor-nft.get-allvalues'),
-  networkId: NETWORK_ID,
-  keyPairs: KP,
-  envData: {
-   //'admin-ks': [KP['publicKey']]
-   'admin-ks': {"keys": [e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5], "pred": "keys-all"},
-   account:  "k:e6160a90a28ddd95fea7e0e7f2d3ce36fbdeac68be2057dbfc9da5162cac7ef5",
-        chain: "1",
- },
-  meta: {
-   creationTime: creationTime(),
-   ttl: 28000,
-   gasLimit: 65000,
-   chainId: CHAIN_ID,
-   gasPrice: 0.000001,
-   sender: KP.publicKey // the account paying for gas
- }
- };
- const response = await Pact.fetch.send(cmdObj1, API_HOST);
-    const cmdObj = {
-      pactCode: Pact.lang.mkExp('kor-nft.get-allvalues'),
-      keyPairs: KP
-    };
-    Pact.fetch.send(cmdObj, API_HOST);
+    
 
-    const d = new Date();
-    var dict = {}; 
-    dict["created-date"] = d;
-    fs.writeFileSync("../files/lastpayment.json", JSON.stringify(dict));
-    return true;
+} 
+let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
+
+let latestdate =0;
+
+const totalhashrate = 100.10;
+let totalcoin = Number(amount.toExponential(6));
+
+for (let i in response.result.data){
+    let customerhashrate = Number(response.result.data[i]["hash-rate"]);
+
+    if (response.result.data[i]["created-date"]>lastpaymenttime){
+        latestdate = Number(response.result.data[i]["created-date"]);
+    }
+    else{
+        latestdate = Number(lastpaymenttime);
+    }
+    let numberofdays =  (payouttimestamp - latestdate);
+    let paymentperiod = (payouttimestamp - lastpaymenttime);
+    let owneraddress = response.result.data[i]["owner-address"];
+    console.log(owneraddress);
+
+
+    
+
+    console.log(".............");
+    console.log(totalhashrate);
+   
+    console.log(customerhashrate);
+   
+    console.log(totalcoin);
+  
+    console.log(numberofdays);
+  
+    console.log(paymentperiod);
+   
+
+    let hashrate = customerhashrate / totalhashrate;
+
+    let period = numberofdays/paymentperiod ;
+
+    let output = 0.74*totalcoin*period * hashrate;
+
+    let coin = Number(output.toExponential(7));
+
+    console.log(output);
+    console.log(coin);
+
+    const cmdObj1 = 
+ 
+    {
+        keyPairs: {
+          publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
+          secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829',
+          caps: [
+            Pact.lang.mkCap("coin.TRANSFER", "Capability to transfer designated amount of coin from sender to receiver", "coin.TRANSFER", ["15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, 1.0]),   
+            Pact.lang.mkCap("coin.GAS", "Capability to validate amount", "coin.GAS", [])    
+        ]
+        },
+    
+        networkId: 'testnet04',
+        pactCode: Pact.lang.mkExp('coin.transfer', "15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, 1.0),
+        //caps: [
+         //   Pact.lang.mkCap("coin.TRANSFER", "Capability to transfer designated amount of coin from sender to receiver", "coin.TRANSFER", ["15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, coin]),   
+          //  Pact.lang.mkCap("coin.GAS", "Capability to validate amount", "coin.GAS", [])    
+        //],
+        meta: {
+          creationTime: creationTime(),
+          ttl: 600,
+          gasLimit: 100000,
+          chainId: '1',
+          gasPrice: 0.0000001,
+          // IMPORTANT: the API requires this attribute even if it's an empty value like in this case
+          sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
+        }
+      };
+ 
+    const response1 = await Pact.fetch.send(cmdObj1, API_HOST);
+    
+    console.log(response1);
+}
    
   } catch (err) {
     return false;
