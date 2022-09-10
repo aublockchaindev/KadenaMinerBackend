@@ -88,7 +88,7 @@ const response = await Pact.fetch.local(cmdObj, API_HOST);
 const payout = await fetch('https://poolflare.net/api/v1/coin/kda/account/96f223435bbbfc2c68ca6887c60fa8dfe575a19930a7c86b9a4a9cf0d89a8868/payouts');
 const payoutJsonArray = await payout.json(); //extract JSON from the poolflare response
 
-const File = "lastpayment.json";
+const File = "./files/lastpayment.json";
 const Data = fs.readFileSync(File);
 const jsonTime = JSON.parse(Data);
 const lastpaymenttime = jsonTime.date;
@@ -113,7 +113,7 @@ let latestdate =0;
 
 const totalhashrate = 100.10;
 let totalcoin = Number(amount.toExponential(6));
-const addrFile = "adminaddress.json";
+const addrFile = "./files/adminaddress.json";
 const addrData = fs.readFileSync(addrFile);
 const jsonaddr = JSON.parse(addrData);
 const publicKey = jsonaddr.public;
@@ -254,7 +254,7 @@ console.log(response2 );
 var dict ={};
 dict["date"]=payouttimestamp;
 
-fs.writeFileSync("lastpayment.json",JSON.stringify(dict));
+fs.writeFileSync("./files/lastpayment.json",JSON.stringify(dict));
    
   } catch (err) {
     return false;
