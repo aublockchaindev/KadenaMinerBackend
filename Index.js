@@ -93,21 +93,33 @@ const Data = fs.readFileSync(File);
 const jsonTime = JSON.parse(Data);
 const lastpaymenttime = jsonTime.date;
 let amount =0.0;
+let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
 for (let i in payoutJsonArray.data.payouts){
     let timestamp = payoutJsonArray.data.payouts[i].timestamp;
 
     if (timestamp > lastpaymenttime ) {
         amount = amount + Number(payoutJsonArray.data.payouts[i].amount);
       }
+
+    if(timestamp>payouttimestamp){
+      payouttimestamp = timestamp;
+    }
     
 
 } 
-let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
+
 
 let latestdate =0;
 
 const totalhashrate = 100.10;
 let totalcoin = Number(amount.toExponential(6));
+const addrFile = "adminaddress.json";
+const addrData = fs.readFileSync(addrFile);
+const jsonaddr = JSON.parse(addrData);
+const publicKey = jsonaddr.public;
+const secretKey = jsonaddr.secret;
+const adwallet = jsonaddr.adminwallet;
+    
 
 for (let i in response.result.data){
     let customerhashrate = Number(response.result.data[i]["hash-rate"]);
@@ -118,6 +130,8 @@ for (let i in response.result.data){
     else{
         latestdate = Number(lastpaymenttime);
     }
+
+    
     let numberofdays =  (payouttimestamp - latestdate);
     let paymentperiod = (payouttimestamp - lastpaymenttime);
     let owneraddress = response.result.data[i]["owner-address"];
@@ -149,39 +163,98 @@ for (let i in response.result.data){
     console.log(output);
     console.log(coin);
 
-    const cmdObj1 = 
- 
-    {
-        keyPairs: {
-          publicKey: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c',
-          secretKey: '1407d697ec2248e0aa7641d3f75af88fc8bf5b5da537b035128174460cf17829',
-          caps: [
-            Pact.lang.mkCap("coin.TRANSFER", "Capability to transfer designated amount of coin from sender to receiver", "coin.TRANSFER", ["15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, 1.0]),   
-            Pact.lang.mkCap("coin.GAS", "Capability to validate amount", "coin.GAS", [])    
-        ]
-        },
-    
-        networkId: 'testnet04',
-        pactCode: Pact.lang.mkExp('coin.transfer', "15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, 1.0),
-        //caps: [
-         //   Pact.lang.mkCap("coin.TRANSFER", "Capability to transfer designated amount of coin from sender to receiver", "coin.TRANSFER", ["15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c", owneraddress, coin]),   
-          //  Pact.lang.mkCap("coin.GAS", "Capability to validate amount", "coin.GAS", [])    
-        //],
+    const cmd = 
+      {
+        pactCode: Pact.lang.mkExp("coin.transfer",publicKey, owneraddress,coin),
         meta: {
-          creationTime: creationTime(),
-          ttl: 600,
-          gasLimit: 100000,
-          chainId: '1',
-          gasPrice: 0.0000001,
-          // IMPORTANT: the API requires this attribute even if it's an empty value like in this case
-          sender: '15772eb33c28728e94e6c5b8216ff440c22bf512f9085a359afcc6767c29e59c'
-        }
-      };
- 
-    const response1 = await Pact.fetch.send(cmdObj1, API_HOST);
+            chainId: "1",
+            sender: publicKey,
+            gasLimit: 100000,
+            gasPrice: 0.0000001,
+            ttl: 600,
+            creationTime: creationTime()
+        },
+        networkId: "testnet04",
+        keyPairs: [
+            {
+                publicKey: publicKey,
+                secretKey: secretKey,
+                clist: [
+                    {
+                        name: "coin.TRANSFER",
+                        args: [
+                            publicKey,
+                            owneraddress,
+                            coin
+                        ]
+                    },
+                    {
+                        name: "coin.GAS",
+                        args: []
+                    }
+                ]
+            }
+        ],
+        type: "exec"
+    }
     
-    console.log(response1);
+    const response1 = await Pact.fetch.send(cmd, API_HOST);
+    
+
+    
+
+      console.log(response1 );
+
 }
+let admincoin=amount*0.25;
+admincoin= Number(admincoin.toExponential(6))
+console.log(admincoin)
+const admincmd = 
+      {
+        pactCode: Pact.lang.mkExp("coin.transfer",publicKey, adwallet,admincoin),
+        meta: {
+            chainId: "1",
+            sender: publicKey,
+            gasLimit: 100000,
+            gasPrice: 0.0000001,
+            ttl: 600,
+            creationTime: creationTime()
+        },
+        networkId: "testnet04",
+        keyPairs: [
+            {
+                publicKey: publicKey,
+                secretKey: secretKey,
+                clist: [
+                    {
+                        name: "coin.TRANSFER",
+                        args: [
+                            publicKey,
+                            adwallet,
+                            admincoin
+                        ]
+                    },
+                    {
+                        name: "coin.GAS",
+                        args: []
+                    }
+                ]
+            }
+        ],
+        type: "exec"
+    }
+    
+const response2 = await Pact.fetch.send(admincmd, API_HOST);
+    
+
+    
+
+console.log(response2 );
+
+var dict ={};
+dict["date"]=payouttimestamp;
+
+fs.writeFileSync("lastpayment.json",JSON.stringify(dict));
    
   } catch (err) {
     return false;
