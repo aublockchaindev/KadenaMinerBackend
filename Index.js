@@ -98,7 +98,13 @@ const cmdObj = {
 const response = await Pact.fetch.local(cmdObj, API_HOST);
 
 console.log("Got the values");
+    try{
 const payout = await fetch('https://poolflare.net/api/v1/coin/kda/account/96f223435bbbfc2c68ca6887c60fa8dfe575a19930a7c86b9a4a9cf0d89a8868/payouts');
+    }
+    catch (e) {
+      console.log ("error" + e);
+    }
+      
 const payoutJsonArray = await payout.json(); //extract JSON from the poolflare response
 console.log("Got the values from poolflare");
 const File = "./files/lastpayment.json";
