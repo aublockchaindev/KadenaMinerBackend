@@ -12,6 +12,7 @@ const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
 const createdDate = new Date();
+const creationTime = () => Math.round((new Date).getTime() / 1000);
 
 app.use(
   cors({
