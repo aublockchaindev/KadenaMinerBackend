@@ -119,8 +119,13 @@ const jsonTime = JSON.parse(Data);
 const lastpaymenttime = jsonTime.date;
 let amount =0.0;
 console.log("Payout Calculation Starts");
+    try {
 let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
     console.log ("values from array" + payouttimestamp);
+    }
+    catch (e){
+      console.log ("error"+e);
+      
 for (let i in payoutJsonArray.data.payouts){
     let timestamp = payoutJsonArray.data.payouts[i].timestamp;
 
