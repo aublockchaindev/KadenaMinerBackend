@@ -98,14 +98,9 @@ const cmdObj = {
 const response = await Pact.fetch.local(cmdObj, API_HOST);
 
 console.log("Got the values");
-    try{
 const payout = await fetch('https://poolflare.net/api/v1/coin/kda/account/96f223435bbbfc2c68ca6887c60fa8dfe575a19930a7c86b9a4a9cf0d89a8868/payouts');
       const payoutJsonArray = await payout.json();
       console.log ("poolflare date" + payout);
-    }
-    catch (e) {
-      console.log ("error" + e);
-    }
      // try{
 //const payoutJsonArray = await payout.json(); //extract JSON from the poolflare response
   //    }
@@ -119,13 +114,13 @@ const jsonTime = JSON.parse(Data);
 const lastpaymenttime = jsonTime.date;
 let amount =0.0;
 console.log("Payout Calculation Starts");
-    try {
+    //try {
 let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
     console.log ("values from array" + payouttimestamp);
-    }
-    catch (e){
-      console.log ("error"+e);
-    }
+    //}
+    //catch (e){
+      //console.log ("error"+e);
+    //}
 for (let i in payoutJsonArray.data.payouts){
     let timestamp = payoutJsonArray.data.payouts[i].timestamp;
 
