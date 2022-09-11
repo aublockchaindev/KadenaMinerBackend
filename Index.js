@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 const Pact = require("pact-lang-api");
 const { v4: uuidv4 } = require('uuid');
 const API_HOST = "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact";
