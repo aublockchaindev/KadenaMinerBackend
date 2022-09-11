@@ -35,7 +35,7 @@ const mintContractService = async (req) => {
     console.log("Time is " + createdDate);
     console.log("raritymodel" + mintInput.rarityModel);
  const cmdObj = {
-   keyPairs: KP,
+  keyPairs: KP,
   
     networkId: 'testnet04',
     pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,createdDate,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate,mintInput.rarityModel),
