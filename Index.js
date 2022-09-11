@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+const fetch = require("node-fetch");
 const Pact = require("pact-lang-api");
 const { v4: uuidv4 } = require('uuid');
 const API_HOST = "https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact";
@@ -121,7 +121,7 @@ for (let i in payoutJsonArray.data.payouts){
     
 
 } 
-console.log("payout"+amount);
+console.log("payout"+ amount);
 
 let latestdate =0;
 
