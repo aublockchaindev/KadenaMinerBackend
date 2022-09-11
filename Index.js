@@ -125,7 +125,7 @@ let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
     }
     catch (e){
       console.log ("error"+e);
-      
+    }
 for (let i in payoutJsonArray.data.payouts){
     let timestamp = payoutJsonArray.data.payouts[i].timestamp;
 
