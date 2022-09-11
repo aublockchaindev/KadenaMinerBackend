@@ -11,7 +11,7 @@ var http = require('http');
 const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
-const createdDate = new Date();
+//const createdDate = new Date();
 const creationTime = () => Math.round((new Date).getTime() / 1000);
 
 app.use(
@@ -31,6 +31,7 @@ const mintContractService = async (req) => {
     //console.log("I am here" + mintInput.ownerAddress);
     console.log("I am here" + mintInput.createdDate);
     const creationTime = () => Math.round((new Date).getTime() / 1000);
+    const createdDate = "" + mintInput.createdDate + "";
     //const createdDate = new Date(mintInput.created-date);
     console.log("time created" + mintInput.ownerAddress);
     console.log("Time is " + createdDate);
