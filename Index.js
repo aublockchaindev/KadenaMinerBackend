@@ -25,17 +25,9 @@ app.use(bodyParser.json());
 const mintContractService = async (req) => {
   try {
     const nftId = uuidv4();
-    console.log("I am here" + req);
-    //const mintInput = JSON.parse(req);
     const mintInput = req.body;
-    //console.log("I am here" + mintInput.ownerAddress);
     console.log("I am here" + mintInput.createdDate);
-    //const creationTime = () => Math.round((new Date).getTime() / 1000);
     const createdDate = "" + mintInput.createdDate + "";
-    //const createdDate = new Date(mintInput.created-date);
-    console.log("time created" + mintInput.ownerAddress);
-    console.log("Time is " + createdDate);
-    console.log("raritymodel" + mintInput.rarityModel);
  const cmdObj = {
   keyPairs: KP,
   
@@ -67,6 +59,21 @@ console.log(cmdObj);
     //Pact.fetch.send(cmdObj, API_HOST);
     const response = await Pact.fetch.send(cmdObj, API_HOST);
     console.log(response);
+    const balanceFile = "./files/balancehashrate.json";
+const balanceData = fs.readFileSync(balanceFile);
+const jsonBalance = JSON.parse(balanceData);
+let balance= jsonBalance.balance;
+let totalHashrate = Number(mintInput.hashRate);
+console.log(totalHashrate);
+
+let newBalance = (balance - totalHashrate);
+console.log(newBalance);
+
+
+var dict ={};
+dict["balance"]=newBalance;
+
+fs.writeFileSync(balanceFile,JSON.stringify(dict));
     const reqKey = response.requestKeys[0];
           console.log("Request keys is: ", reqKey);
     return reqKey;
