@@ -131,7 +131,7 @@ const jsonaddr = JSON.parse(addrData);
 const publicKey = jsonaddr.public;
 const secretKey = jsonaddr.secret;
 const adwallet = jsonaddr.adminwallet;
-    
+console.log("details" + adwallet);     
 
 for (let i in response.result.data){
     let customerhashrate = Number(response.result.data[i]["hash-rate"]);
