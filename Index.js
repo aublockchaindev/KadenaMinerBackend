@@ -83,8 +83,9 @@ fs.writeFileSync(balanceFile,JSON.stringify(dict));
   }
 };
 const distributeFunds = async () => {
-  try {const creationTime = () => Math.round((new Date).getTime() / 1000);
-
+  try {
+    //const creationTime = () => Math.round((new Date).getTime() / 1000);
+console.log("Inside Distribute Function");
 const cmdObj = {
 
     networkId: 'testnet04',
