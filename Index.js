@@ -119,7 +119,7 @@ for (let i in payoutJsonArray.data.payouts){
     
 
 } 
-
+console.log("payout"+amount);
 
 let latestdate =0;
 
