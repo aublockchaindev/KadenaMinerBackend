@@ -32,6 +32,7 @@ const mintContractService = async (req) => {
     const creationTime = () => Math.round((new Date).getTime() / 1000);
     //const createdDate = new Date(mintInput.created-date);
     console.log("time created" + mintInput.ownerAddress);
+    console.log("raritymodel" + mintInput.rarityModel;
  const cmdObj = {
    keyPairs: KP,
   
