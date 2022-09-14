@@ -9,6 +9,9 @@ const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 var http = require('http');
+const netId = "TEST_NET_ID";
+const NETWORK_ID = 'testnet04';
+const CHAIN_ID = '1';
 //const createdDate = new Date();
 const creationTime = () => Math.round((new Date).getTime() / 1000);
 
@@ -36,7 +39,7 @@ const mintContractService = async (req) => {
 
             meta: {
                 creationTime: creationTime(),
-                ttl: 28000,
+                ttl: 28800,
                 gasLimit: 65000,
                 chainId: process.env.CHAIN_ID,
                 gasPrice: 0.000001,
@@ -47,6 +50,12 @@ const mintContractService = async (req) => {
 
         const response = await Pact.fetch.send(cmdObj, API_HOST);
         console.log(response);
+
+        fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/public/nft/"+nftId+".gif", (err) => {
+            if (err) {
+              console.log("Error Found while copying file:", err);
+            }
+          });
 
 
         const balanceFile = "./files/balancehashrate.json";
@@ -125,7 +134,7 @@ const distributeFunds = async () => {
             const publicKey = jsonaddr.public;
             const secretKey = jsonaddr.secret;
             const adwallet = jsonaddr.adminwallet;
-            const totalhashrate = jsonval.totalhashrate;
+            const totalhashrate = jsonaddr.totalhashrate;
             console.log("details" + adwallet); 
 
             for (let i in response.result.data){
@@ -164,7 +173,7 @@ const distributeFunds = async () => {
                         sender: publicKey,
                         gasLimit: 100000,
                         gasPrice: 0.0000001,
-                        ttl: 600,
+                        ttl: 28800,
                         creationTime: creationTime()
                     },
                     networkId: process.env.NETWORD_ID,
@@ -206,7 +215,7 @@ const distributeFunds = async () => {
                     sender: publicKey,
                     gasLimit: 100000,
                     gasPrice: 0.0000001,
-                    ttl: 600,
+                    ttl: 28800,
                     creationTime: creationTime()
                 },
                 networkId: process.env.NETWORD_ID,
@@ -248,7 +257,7 @@ const distributeFunds = async () => {
                     sender: publicKey,
                     gasLimit: 100000,
                     gasPrice: 0.0000001,
-                    ttl: 600,
+                    ttl: 28800,
                     creationTime: creationTime()
                 },
                 networkId: process.env.NETWORD_ID,
