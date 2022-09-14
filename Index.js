@@ -29,6 +29,7 @@ const mintContractService = async (req) => {
         const mintInput = req.body;
         console.log("Created date:" + mintInput.createdDate);
         const createdDate = "" + mintInput.createdDate + "";
+     console.log("EnvID:" + process.env.SYSADMIN_PUBLIC_KEY);
         const cmdObj = {
             networkId: process.env.NETWORD_ID,
             pactCode: Pact.lang.mkExp('free.kor-create-nft.set-values', mintInput.ownerAddress,nftId,mintInput.nftValue, mintInput.createdDate,mintInput.hashRate,mintInput.rarityModel),
