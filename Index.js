@@ -55,7 +55,7 @@ const mintContractService = async (req) => {
     const response = await Pact.fetch.send(cmdObj, API_HOST);
     console.log(response);
 
-    fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/public/nft/"+nftId+".gif", (err) => {
+    fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/build/nft/"+nftId+".gif", (err) => {
     if (err) {
         console.log("Error Found while copying file:", err);
     }
