@@ -33,6 +33,7 @@ const mintContractService = async (req) => {
     console.log("Created date:" + mintInput.createdDate);
   console.log("MintedTh:" + mintInput.hashRate);
   console.log("Owner Address:" + mintInput.ownerAddress);
+  console.log("nftid is:" + nftId);
     const createdDate = "" + mintInput.createdDate + "";
     console.log("EnvID:" + process.env.SYSADMIN_PUBLIC_KEY);
     const cmdObj = {
