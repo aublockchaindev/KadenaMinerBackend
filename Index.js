@@ -172,7 +172,7 @@ const distributeFunds = async () => {
             const publicKey = jsonaddr.public;
             const secretKey = jsonaddr.secret;
             const adwallet = jsonaddr.adminwallet;
-            let senderkey = 'k:'+publicKey;
+            const senderkey = 'k:'+publicKey;
 
             let totalcoin = Number(amount.toExponential(6)); 
 
