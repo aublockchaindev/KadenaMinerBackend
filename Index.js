@@ -203,12 +203,12 @@ const distributeFunds = async () => {
                 process.env.NETWORD_ID
               )
           
-            const transactionRes = await fetch(`${SOURCE_API_HOST}/api/v1/send`, mkReq(cmd));
+            const txRes = await fetch(`${SOURCE_API_HOST}/api/v1/send`, mkReq(cmd));
             //console.log(transactionRes)
-            if (transactionRes.ok) 
+            if (txRes.ok) 
             {
                 console.log("Successfully submitted the source chain request")
-                let res = await transactionRes.json();
+                let res = await txRes.json();
                 fetch(`${SOURCE_API_HOST}/api/v1/listen`, mkReq({"listen": res.requestKeys[0]}))
                 .then(res =>{
                     return res.json()
