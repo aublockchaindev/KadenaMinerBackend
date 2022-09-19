@@ -178,7 +178,7 @@ const distributeFunds = async () => {
 
             totalcoin = convertDecimal(totalcoin);
 
-            let pactCode = '(coin.transfer-crosschain \"'+adwallet +'\" \"'+adwallet +'\" (read-keyset \"ks\") \"'+process.env.CHAIN_ID+'\"' + totalcoin +' )';
+            let pactCode = '(coin.transfer-crosschain \"'+senderkey +'\" \"'+senderkey +'\" (read-keyset \"ks\") \"'+process.env.CHAIN_ID+'\"' + totalcoin +' )';
 
 
             const cmd = Pact.simple.exec.createCommand({
@@ -190,8 +190,8 @@ const distributeFunds = async () => {
                     }, 
                     {
                         name: "coin.TRANSFER_XCHAIN", 
-                        args: [adwallet, 
-                            adwallet, totalcoin,process.env.CHAIN_ID]}]},
+                        args: [senderkey, 
+                            senderkey, totalcoin,process.env.CHAIN_ID]}]},
                 JSON.stringify(new Date()),
                 pactCode,
                 {"ks": {
