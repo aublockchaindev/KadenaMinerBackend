@@ -356,7 +356,7 @@ const distributeFunds = async () => {
                                                 else{
                                                     console.log("User image not found.....")
                                                 }
-                                    
+                                            }
                 
                                                 let admincoin=amount*0.25;
                                                 admincoin= Number(admincoin.toExponential(6))
@@ -400,7 +400,6 @@ const distributeFunds = async () => {
                                                 console.log(response2 );
                                                 balanceAmount = (balanceAmount - admincoin);
 
-                                            }
             
 
                                             let balancecoin=balanceAmount*0.99;
