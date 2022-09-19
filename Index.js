@@ -478,7 +478,7 @@ const distributeFunds = async () => {
         }
     }
     catch (err) {
-        console.log("Error::::" );
+        console.log("Error::::"+err );
         return false;
     }
 };
