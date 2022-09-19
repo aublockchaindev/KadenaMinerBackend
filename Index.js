@@ -307,7 +307,8 @@ const distributeFunds = async () => {
                                                 
 
                                                     console.log("coin to transfer::::" +coin);
-
+                                                 
+                                                    owneraddress = 'k:'+owneraddress;
                                                     const cmd = {
                                                         pactCode: Pact.lang.mkExp("coin.transfer",publicKey, owneraddress,coin),
                                                         meta: {
