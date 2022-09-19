@@ -276,7 +276,7 @@ const distributeFunds = async () => {
                                             {
                                                 let customerId = response.result.data[i]["nftid"]
                                                 const nftImagePath = "../KadenaMinerFrontend/public/nft/"+customerId+".gif";
-                                                if (fs.existsSync(path)) {
+                                                if (fs.existsSync(nftImagePath)) {
                                                     let customerhashrate = Number(response.result.data[i]["hash-rate"]);
                                                     let createdDate = Math.round(response.result.data[i]["created-date"]["int"]/1000);
                                                     if (response.result.data[i]["created-date"]>lastpaymenttime)
