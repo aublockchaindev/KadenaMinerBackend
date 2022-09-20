@@ -48,7 +48,7 @@ const mintContractService = async (req) => {
             },
 
             meta: {
-                creationTime: creationTime(),
+                creationTime: creationtimeBlock,
                 ttl: 28800,
                 gasLimit: 65000,
                 chainId: process.env.CHAIN_ID,
@@ -62,6 +62,10 @@ const mintContractService = async (req) => {
         console.log(response);
 
         fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/build/nft/"+nftId+".gif", (err) => {
+            if (err) {
+                console.log("Error Found while copying file:", err);
+            }
+         fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/public/nft/"+nftId+".gif", (err) => {
             if (err) {
                 console.log("Error Found while copying file:", err);
             }
@@ -277,7 +281,7 @@ const distributeFunds = async () => {
                                             for (let i in response.result.data)
                                             {
                                                 let customerId = response.result.data[i]["nftid"]
-                                                const nftImagePath = "../KadenaMinerFrontend/public/nft/"+customerId+".gif";
+                                                const nftImagePath = "../KadenaMinerFrontend/build/nft/"+customerId+".gif";
                                                 if (fs.existsSync(nftImagePath)) {
                                                     let customerhashrate = Number(response.result.data[i]["hash-rate"]);
                                                     let createdDate = Math.round(response.result.data[i]["created-date"]["int"]/1000);
