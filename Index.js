@@ -65,12 +65,12 @@ const mintContractService = async (req) => {
             if (err) {
                 console.log("Error Found while copying file:", err);
             }
-         fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/public/nft/"+nftId+".gif", (err) => {
+        });
+        fs.copyFile("../KadenaMinerFrontend/public/images/"+mintInput.rarityModel+".gif", "../KadenaMinerFrontend/public/nft/"+nftId+".gif", (err) => {
             if (err) {
                 console.log("Error Found while copying file:", err);
             }
         });
-
 
         const balanceFile = "./files/balancehashrate.json";
         const balanceData = fs.readFileSync(balanceFile);
