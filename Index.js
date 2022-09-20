@@ -16,7 +16,7 @@ const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
 //const createdDate = new Date();
 const creationTime = () => Math.round((new Date).getTime() / 1000);
-const creationtimeBlock = Date.now();
+const creationtimeBlock = Math.floor(Date.now()/1000);
 let pbkey = process.env.SYSADMIN_PUBLIC_KEY
 let sender = 'k:'+pbkey;
 
