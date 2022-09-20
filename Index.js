@@ -98,7 +98,7 @@ const distributeFunds = async () => {
         const cmdObj = {
             networkId: process.env.NETWORD_ID,
             pactCode: Pact.lang.mkExp('free.kor-create-nft.get-allvalues'),
-            meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, creationTime(), 600)
+            meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, 600)
 
         };
 
@@ -199,7 +199,7 @@ const distributeFunds = async () => {
                   "pred": "keys-all"
                     }
                 },
-                Pact.lang.mkMeta(senderkey,process.env.SOURCE_CHAIN_ID , 0.00001, 1800, creationTime(), 28800),
+                Pact.lang.mkMeta(senderkey,process.env.SOURCE_CHAIN_ID , 0.00001, 1800, 28800),
                 process.env.NETWORD_ID
               )
           
@@ -240,7 +240,7 @@ const distributeFunds = async () => {
                             }
           
                
-                            const m = Pact.lang.mkMeta(senderkey, process.env.CHAIN_ID, 0.00000001, 750, creationTime(), 28800);
+                            const m = Pact.lang.mkMeta(senderkey, process.env.CHAIN_ID, 0.00000001, 750, 28800);
                             const contCmd = {type: "cont",
                             keyPairs:{
                               publicKey: publicKey,
@@ -316,8 +316,7 @@ const distributeFunds = async () => {
                                                             sender: senderkey,
                                                             gasLimit: 100000,
                                                             gasPrice: 0.0000001,
-                                                            ttl: 28800,
-                                                            creationTime: creationTime()
+                                                            ttl: 28800
                                                         },
                                                         networkId: process.env.NETWORD_ID,
                                                         keyPairs: [
@@ -368,8 +367,7 @@ const distributeFunds = async () => {
                                                         sender: senderkey,
                                                         gasLimit: 100000,
                                                         gasPrice: 0.0000001,
-                                                        ttl: 28800,
-                                                        creationTime: creationTime()
+                                                        ttl: 28800
                                                     },
                                                     networkId: process.env.NETWORD_ID,
                                                     keyPairs: [
@@ -413,8 +411,7 @@ const distributeFunds = async () => {
                                                     sender: senderkey,
                                                     gasLimit: 100000,
                                                     gasPrice: 0.0000001,
-                                                    ttl: 28800,
-                                                    creationTime: creationTime()
+                                                    ttl: 28800
                                                 },
                                                 networkId: process.env.NETWORD_ID,
                                                 keyPairs: [
