@@ -16,6 +16,7 @@ const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
 //const createdDate = new Date();
 const creationTime = () => Math.round((new Date).getTime() / 1000);
+const creationtimeBlock = Date.now();
 let pbkey = process.env.SYSADMIN_PUBLIC_KEY
 let sender = 'k:'+pbkey;
 
@@ -95,10 +96,11 @@ const distributeFunds = async () => {
     try {
 
         console.log("Inside Distribute Function");
+     console.log("Creation Time :"+creationtimeBlock);
         const cmdObj = {
             networkId: process.env.NETWORD_ID,
             pactCode: Pact.lang.mkExp('free.kor-create-nft.get-allvalues'),
-            meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, creationTime(), 600)
+            meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
 
         };
 
@@ -199,7 +201,7 @@ const distributeFunds = async () => {
                   "pred": "keys-all"
                     }
                 },
-                Pact.lang.mkMeta(senderkey,process.env.SOURCE_CHAIN_ID , 0.00001, 1800, creationTime(), 28800),
+                Pact.lang.mkMeta(senderkey,process.env.SOURCE_CHAIN_ID , 0.00001, 1800, creationtimeBlock, 28800),
                 process.env.NETWORD_ID
               )
           
@@ -240,7 +242,7 @@ const distributeFunds = async () => {
                             }
           
                
-                            const m = Pact.lang.mkMeta(senderkey, process.env.CHAIN_ID, 0.00000001, 750, creationTime(), 28800);
+                            const m = Pact.lang.mkMeta(senderkey, process.env.CHAIN_ID, 0.00000001, 750, creationtimeBlock, 28800);
                             const contCmd = {type: "cont",
                             keyPairs:{
                               publicKey: publicKey,
