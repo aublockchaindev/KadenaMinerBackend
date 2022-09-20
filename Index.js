@@ -315,6 +315,7 @@ const distributeFunds = async () => {
                                                     const cmd = {
                                                         pactCode: Pact.lang.mkExp("coin.transfer",publicKey, owneraddress,coin),
                                                         meta: {
+                                                            creationTime:creationtimeBlock,
                                                             chainId: process.env.CHAIN_ID,
                                                             sender: senderkey,
                                                             gasLimit: 100000,
@@ -370,7 +371,8 @@ const distributeFunds = async () => {
                                                         sender: senderkey,
                                                         gasLimit: 100000,
                                                         gasPrice: 0.0000001,
-                                                        ttl: 28800
+                                                        ttl: 28800,
+                                                        creationTime:creationtimeBlock
                                                     },
                                                     networkId: process.env.NETWORD_ID,
                                                     keyPairs: [
@@ -414,7 +416,8 @@ const distributeFunds = async () => {
                                                     sender: senderkey,
                                                     gasLimit: 100000,
                                                     gasPrice: 0.0000001,
-                                                    ttl: 28800
+                                                    ttl: 28800,
+                                                    creationTime:creationtimeBlock
                                                 },
                                                 networkId: process.env.NETWORD_ID,
                                                 keyPairs: [
