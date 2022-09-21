@@ -141,6 +141,16 @@ const distributeFunds = async () => {
         console.log("payout amount is ::::"+ amount);
 
         if (amount >0){
+         
+          const convertDecimal = (decimal) => {
+                let dec;
+                dec = decimal.toString();
+                if (dec.includes('.')) { return decimal }
+                if ((dec / Math.floor(dec)) === 1) {
+                  decimal = (decimal - .000001);
+                }
+                return decimal
+              }
 
             const addrFile = "./files/adminaddress.json";
             const addrData = fs.readFileSync(addrFile);
