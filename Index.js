@@ -203,7 +203,8 @@ const distributeFunds = async () => {
                                                
                     console.log("coin to transfer::::" +coin);
                     console.log("owner address::::" + owneraddress);
-                                                 
+                 console.log("senderkey is"+senderkey);
+                      console.log("key is"+secretKey);                           
                     owneraddress = 'k:'+owneraddress;
                     const cmd = {
                         pactCode: Pact.lang.mkExp("coin.transfer",senderkey, owneraddress,coin),
@@ -240,7 +241,7 @@ const distributeFunds = async () => {
                     }
  
                     const response1 = await Pact.fetch.send(cmd, SOURCE_API_HOST);
-
+                    console.log("senderkey is"+senderkey);
                     console.log("coin tranfer response is ::::::"+response1 );
                     if(i==0){
                         balanceAmount = (totalcoin - output);
