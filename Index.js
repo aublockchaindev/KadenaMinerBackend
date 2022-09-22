@@ -205,7 +205,7 @@ const distributeFunds = async () => {
                                                  
                     owneraddress = 'k:'+owneraddress;
                     const cmd = {
-                        pactCode: Pact.lang.mkExp("coin.transfer",publicKey, owneraddress,coin),
+                        pactCode: Pact.lang.mkExp("coin.transfer",senderkey, owneraddress,coin),
                         meta: {
                             creationTime:creationtimeBlock,
                             chainId: process.env.SOURCE_CHAIN_ID,
@@ -223,7 +223,7 @@ const distributeFunds = async () => {
                             {
                                 name: "coin.TRANSFER",
                                 args: [
-                                    publicKey,
+                                    senderkey,
                                     owneraddress,
                                     coin
                                 ]
@@ -256,8 +256,9 @@ const distributeFunds = async () => {
             let admincoin=amount*0.25;
             admincoin= Number(admincoin.toExponential(6))
             console.log("admin pay amount fee:::"+ admincoin)
+            console.log("admin wallet:::"+adwallet)
             const admincmd = {
-                pactCode: Pact.lang.mkExp("coin.transfer",publicKey, adwallet,admincoin),
+                pactCode: Pact.lang.mkExp("coin.transfer",senderkey, adwallet,admincoin),
                 meta: {
                     chainId: process.env.SOURCE_CHAIN_ID,
                     sender: senderkey,
@@ -275,7 +276,7 @@ const distributeFunds = async () => {
                     {
                         name: "coin.TRANSFER",
                         args: [
-                            publicKey,
+                            senderkey,
                             adwallet,
                             admincoin
                         ]
@@ -298,9 +299,9 @@ const distributeFunds = async () => {
             let balancecoin=balanceAmount*0.99;
             balancecoin= Number(balancecoin.toExponential(6))
             console.log("balance total amount::::"+ balancecoin)
-
+            console.log("balance Key:::"+process.env.SYSADMIN_BALANCE_KEY)
             const balancecmd = {
-                pactCode: Pact.lang.mkExp("coin.transfer",publicKey, process.env.SYSADMIN_BALANCE_KEY,balancecoin),
+                pactCode: Pact.lang.mkExp("coin.transfer",senderkey, process.env.SYSADMIN_BALANCE_KEY,balancecoin),
                 meta: {
                     chainId: process.env.SOURCE_CHAIN_ID,
                     sender: senderkey,
@@ -318,7 +319,7 @@ const distributeFunds = async () => {
                     {
                         name: "coin.TRANSFER",
                         args: [
-                            publicKey,
+                            senderkey,
                             process.env.SYSADMIN_BALANCE_KEY,
                             balancecoin
                         ]
