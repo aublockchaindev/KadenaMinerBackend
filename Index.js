@@ -162,7 +162,7 @@ const distributeFunds = async () => {
 
             let totalcoin = Number(amount.toExponential(6));
 
-            totalcoin = convertDecimal(totalcoin);
+           // totalcoin = convertDecimal(totalcoin);
 
             let latestdate =0;
                    
@@ -185,7 +185,7 @@ const distributeFunds = async () => {
                     else
                     {
                         latestdate = Number(lastpaymenttime);
-                    } 
+                    }
                     let numberofdays = (payouttimestamp - latestdate);
                     let paymentperiod = (payouttimestamp - lastpaymenttime);
                     let owneraddress = response.result.data[i]["owner-address"];
@@ -200,11 +200,12 @@ const distributeFunds = async () => {
                     let period = numberofdays/paymentperiod ;
                     let output = 0.74*totalcoin*period * hashrate;
                     let coin = Number(output.toExponential(7));
+                    coin = convertDecimal(coin);
                                                
                     console.log("coin to transfer::::" +coin);
                     console.log("owner address::::" + owneraddress);
-                 console.log("senderkey is"+senderkey);
-                      console.log("key is"+secretKey);                           
+                    console.log("senderkey is"+senderkey);
+                    console.log("key is"+secretKey);                          
                     owneraddress = 'k:'+owneraddress;
                     const cmd = {
                         pactCode: Pact.lang.mkExp("coin.transfer",senderkey, owneraddress,coin),
@@ -253,55 +254,60 @@ const distributeFunds = async () => {
                 else{
                     console.log("User image not found.....")
                 }
+
+                let admincoin=0.25*totalcoin*period * hashrate;
+                admincoin= Number(admincoin.toExponential(6));
+                admincoin = convertDecimal(admincoin);
+
+                console.log("admin pay amount fee:::"+ admincoin)
+                console.log("admin wallet:::"+adwallet)
+                const admincmd = {
+                    pactCode: Pact.lang.mkExp("coin.transfer",senderkey, adwallet,admincoin),
+                    meta: {
+                        chainId: process.env.SOURCE_CHAIN_ID,
+                        sender: senderkey,
+                        gasLimit: 100000,
+                        gasPrice: 0.0000001,
+                        ttl: 28800,
+                        creationTime:creationtimeBlock
+                    },
+                    networkId: process.env.NETWORD_ID,
+                    keyPairs: [
+                    {
+                        publicKey: publicKey,
+                        secretKey: secretKey,
+                        clist: [
+                        {
+                            name: "coin.TRANSFER",
+                            args: [
+                                senderkey,
+                                adwallet,
+                                admincoin
+                            ]
+                        },
+                        {
+                            name: "coin.GAS",
+                            args: []
+                        }
+                        ]
+                    }
+                    ],
+                    type: "exec"
+                }
+       
+                const response2 = await Pact.fetch.send(admincmd, SOURCE_API_HOST);
+    
+                console.log("admin coin transfer response is ::::"+response2 );
+                balanceAmount = (balanceAmount - admincoin);
+                console.log("balance amount after coin transfer::::"+ balanceAmount);
             }
                
-            let admincoin=amount*0.25;
-            admincoin= Number(admincoin.toExponential(6))
-            console.log("admin pay amount fee:::"+ admincoin)
-            console.log("admin wallet:::"+adwallet)
-            const admincmd = {
-                pactCode: Pact.lang.mkExp("coin.transfer",senderkey, adwallet,admincoin),
-                meta: {
-                    chainId: process.env.SOURCE_CHAIN_ID,
-                    sender: senderkey,
-                    gasLimit: 100000,
-                    gasPrice: 0.0000001,
-                    ttl: 28800,
-                    creationTime:creationtimeBlock
-                },
-                networkId: process.env.NETWORD_ID,
-                keyPairs: [
-                {
-                    publicKey: publicKey,
-                    secretKey: secretKey,
-                    clist: [
-                    {
-                        name: "coin.TRANSFER",
-                        args: [
-                            senderkey,
-                            adwallet,
-                            admincoin
-                        ]
-                    },
-                    {
-                        name: "coin.GAS",
-                        args: []
-                    }
-                    ]
-                }
-                ],
-                type: "exec"
-            }
-   
-            const response2 = await Pact.fetch.send(admincmd, SOURCE_API_HOST);
-
-            console.log("admin coin transfer response is ::::"+response2 );
-            balanceAmount = (balanceAmount - admincoin);
+           
 
             let balancecoin=balanceAmount*0.99;
-            balancecoin= Number(balancecoin.toExponential(6))
-            console.log("balance total amount::::"+ balancecoin)
-            console.log("balance Key:::"+process.env.SYSADMIN_BALANCE_KEY)
+            balancecoin= Number(balancecoin.toExponential(6));
+            console.log("balance coin to be transferred::::"+ balancecoin);
+            console.log("balance Key:::"+process.env.SYSADMIN_BALANCE_KEY);
             const balancecmd = {
                 pactCode: Pact.lang.mkExp("coin.transfer",senderkey, process.env.SYSADMIN_BALANCE_KEY,balancecoin),
                 meta: {
@@ -342,7 +348,7 @@ const distributeFunds = async () => {
             var dict ={};
             dict["date"]=payouttimestamp;
             fs.writeFileSync("./files/lastpayment.json",JSON.stringify(dict));                                                                      
-            
+           
         }
         else{
             console.log("Amount is not greater than 0....")
