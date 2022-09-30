@@ -110,9 +110,15 @@ const distributeFunds = async () => {
 
         const response = await Pact.fetch.local(cmdObj, API_HOST);
 
-        const payout = await fetch(process.env.POOLFLARE_URL);
-        const payoutJsonArray = await payout.json();
-        console.log ("poolflare data::::" + payout);
+        const balancecmdObj = {
+
+          networkId: process.env.NETWORD_ID,
+          pactCode: Pact.lang.mkExp('coin.get-balance', process.env.PAYMENT_WALLET),
+          meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
+      
+        };
+        const balanceResponse = await Pact.fetch.local(balancecmdObj, API_HOST);
+        console.log("balance response is ::::"+balanceResponse.result.data);
 
         const File = "./files/lastpayment.json";
         const Data = fs.readFileSync(File);
@@ -122,22 +128,11 @@ const distributeFunds = async () => {
         let balanceAmount = 0.0;
         console.log("Payout Calculation Starts");
        
-        let payouttimestamp = Number(payoutJsonArray.data.payouts[0].timestamp);
-        console.log ("payouttimestamp value from array::::" + payouttimestamp);
+        let payouttimestamp = Math.round((new Date).getTime() / 1000);
+        
+        amount = 0.99*(balanceResponse.result.data);
 
-        for (let i in payoutJsonArray.data.payouts){
-            let timestamp = payoutJsonArray.data.payouts[i].timestamp;
-
-            if (timestamp > lastpaymenttime ) {
-                amount = amount + Number(payoutJsonArray.data.payouts[i].amount);
-            }
-
-            if(timestamp>payouttimestamp){
-                payouttimestamp = timestamp;
-            }
- 
-
-        }
+       
         console.log("payout amount is ::::"+ amount);
         console.log("payout time stamp is ::::"+payouttimestamp);
         if (amount >0){
