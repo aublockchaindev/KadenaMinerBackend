@@ -114,7 +114,7 @@ const distributeFunds = async () => {
 
           networkId: process.env.NETWORD_ID,
           pactCode: Pact.lang.mkExp('coin.get-balance', process.env.PAYMENT_WALLET),
-          meta: Pact.lang.mkMeta(sender,process.env.CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
+          meta: Pact.lang.mkMeta(sender,process.env.SOURCE_CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
       
         };
         const balanceResponse = await Pact.fetch.local(balancecmdObj, API_HOST);
