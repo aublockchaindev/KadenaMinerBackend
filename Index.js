@@ -115,7 +115,7 @@ const distributeFunds = async () => {
           networkId: process.env.NETWORD_ID,
           pactCode: Pact.lang.mkExp('coin.get-balance', process.env.PAYMENT_WALLET),
           meta: Pact.lang.mkMeta(sender,process.env.SOURCE_CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
-      
+     
         };
         const balanceResponse = await Pact.fetch.local(balancecmdObj, API_HOST);
         console.log("balance response is ::::"+balanceResponse);
@@ -130,7 +130,7 @@ const distributeFunds = async () => {
         console.log("Payout Calculation Starts");
        
         let payouttimestamp = Math.round((new Date).getTime() / 1000);
-        
+       
         amount = 0.99*(balanceResponse.result.data);
 
        
@@ -246,60 +246,60 @@ const distributeFunds = async () => {
                     else{
                         balanceAmount = (balanceAmount - output);
                     }
+                    let admincoin=0.25*totalcoin*period * hashrate;
+                    admincoin= Number(admincoin.toExponential(6));
+                    admincoin = convertDecimal(admincoin);
+
+                    console.log("admin pay amount fee:::"+ admincoin)
+                    console.log("admin wallet:::"+adwallet)
+                    const admincmd = {
+                        pactCode: Pact.lang.mkExp("coin.transfer",senderkey, adwallet,admincoin),
+                        meta: {
+                            chainId: process.env.SOURCE_CHAIN_ID,
+                            sender: senderkey,
+                            gasLimit: 100000,
+                            gasPrice: 0.0000001,
+                            ttl: 28800,
+                            creationTime:creationtimeBlock
+                        },
+                        networkId: process.env.NETWORD_ID,
+                        keyPairs: [
+                        {
+                            publicKey: publicKey,
+                            secretKey: secretKey,
+                            clist: [
+                            {
+                                name: "coin.TRANSFER",
+                                args: [
+                                    senderkey,
+                                    adwallet,
+                                    admincoin
+                                ]
+                            },
+                            {
+                                name: "coin.GAS",
+                                args: []
+                            }
+                            ]
+                        }
+                        ],
+                        type: "exec"
+                    }
+       
+                    const response2 = await Pact.fetch.send(admincmd, SOURCE_API_HOST);
+   
+                    console.log("admin coin transfer response is ::::"+response2 );
+                    balanceAmount = (balanceAmount - admincoin);
+                    console.log("balance amount after coin transfer::::"+ balanceAmount);
                 }
                 else{
                     console.log("User image not found.....")
                 }
 
-                let admincoin=0.25*totalcoin*period * hashrate;
-                admincoin= Number(admincoin.toExponential(6));
-                admincoin = convertDecimal(admincoin);
-
-                console.log("admin pay amount fee:::"+ admincoin)
-                console.log("admin wallet:::"+adwallet)
-                const admincmd = {
-                    pactCode: Pact.lang.mkExp("coin.transfer",senderkey, adwallet,admincoin),
-                    meta: {
-                        chainId: process.env.SOURCE_CHAIN_ID,
-                        sender: senderkey,
-                        gasLimit: 100000,
-                        gasPrice: 0.0000001,
-                        ttl: 28800,
-                        creationTime:creationtimeBlock
-                    },
-                    networkId: process.env.NETWORD_ID,
-                    keyPairs: [
-                    {
-                        publicKey: publicKey,
-                        secretKey: secretKey,
-                        clist: [
-                        {
-                            name: "coin.TRANSFER",
-                            args: [
-                                senderkey,
-                                adwallet,
-                                admincoin
-                            ]
-                        },
-                        {
-                            name: "coin.GAS",
-                            args: []
-                        }
-                        ]
-                    }
-                    ],
-                    type: "exec"
-                }
-       
-                const response2 = await Pact.fetch.send(admincmd, SOURCE_API_HOST);
-    
-                console.log("admin coin transfer response is ::::"+response2 );
-                balanceAmount = (balanceAmount - admincoin);
-                console.log("balance amount after coin transfer::::"+ balanceAmount);
+                
             }
                
            
-
             let balancecoin=balanceAmount*0.99;
             balancecoin= Number(balancecoin.toExponential(6));
             console.log("balance coin to be transferred::::"+ balancecoin);
