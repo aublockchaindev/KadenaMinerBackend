@@ -118,7 +118,7 @@ const distributeFunds = async () => {
           meta: Pact.lang.mkMeta(sender,process.env.SOURCE_CHAIN_ID, 0.0001, 100000, creationtimeBlock, 600)
      
         };
-        const balanceResponse = await Pact.fetch.local(balancecmdObj, API_HOST);
+        const balanceResponse = await Pact.fetch.local(balancecmdObj, SOURCE_API_HOST);
         console.log("balance response is ::::"+balanceResponse);
         console.log("balance response data is ::::"+balanceResponse.result.data);
 
