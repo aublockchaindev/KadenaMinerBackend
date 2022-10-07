@@ -15,8 +15,8 @@ const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
 //const createdDate = new Date();
-const creationTime = () => Math.round((new Date).getTime() / 1000);
-const creationtimeBlock = Math.floor(Date.now()/1000);
+const creationTime = () => Math.round((new Date).getTime() / 1000)-60;
+const creationtimeBlock = Math.floor(Date.now()/1000)-60;
 let pbkey = process.env.SYSADMIN_PUBLIC_KEY
 let sender = 'k:'+pbkey;
 
@@ -37,6 +37,7 @@ const mintContractService = async (req) => {
         console.log("MintedTh:" + mintInput.hashRate);
         console.log("Owner Address:" + mintInput.ownerAddress);
         console.log("nftid is:" + nftId);
+        console.log("creationTime:"+ creationtimeBlock);
         const createdDate = "" + mintInput.createdDate + "";
         console.log("EnvID:" + process.env.SYSADMIN_PUBLIC_KEY);
         const cmdObj = {
@@ -48,7 +49,7 @@ const mintContractService = async (req) => {
             },
 
             meta: {
-                creationTime: creationtimeBlock,
+                creationTime: creationTime(),
                 ttl: 28800,
                 gasLimit: 65000,
                 chainId: process.env.CHAIN_ID,
