@@ -119,8 +119,8 @@ const distributeFunds = async () => {
      
         };
         const balanceResponse = await Pact.fetch.local(balancecmdObj, SOURCE_API_HOST);
-        console.log("balance response is ::::"+balanceResponse);
-        console.log("balance response data is ::::"+balanceResponse.result.data);
+        console.log("balance response is ::::",balanceResponse);
+        console.log("balance response data is ::::"+balanceResponse.result.data.decimal);
 
         const File = "./files/lastpayment.json";
         const Data = fs.readFileSync(File);
@@ -132,7 +132,7 @@ const distributeFunds = async () => {
        
         let payouttimestamp = Math.round((new Date).getTime() / 1000);
        
-        amount = 0.99*(balanceResponse.result.data);
+        amount = 0.99*(balanceResponse.result.data.decimal);
 
        
         console.log("payout amount is ::::"+ amount);
