@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const Pact = require("pact-lang-api");
+const ogBadge = require("./checkNumber.js");
+const updDetails = require("./updateUserDetails.js");
 require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 const API_HOST = process.env.API_HOST;
@@ -128,6 +130,8 @@ const distributeFunds = async () => {
         const lastpaymenttime = jsonTime.date;
         let amount =0.0;
         let balanceAmount = 0.0;
+        let admincoin = 0.0;
+        let count =0;
         console.log("Payout Calculation Starts");
        
         let payouttimestamp = Math.round((new Date).getTime() / 1000);
@@ -166,6 +170,15 @@ const distributeFunds = async () => {
             const totalhashrate = jsonaddr.totalhashrate;
  
             console.log("details::::" + adwallet);
+
+            for (let i in response.result.data){
+                if (response.result.data[i]["og-badge"] && response.result.data[i]["og-badge"]!=""){
+                    count = count+1;
+                }
+
+            }
+
+            console.log("total number of customers who own OG badge ::::" + count);
 
             for (let i in response.result.data)
             {
@@ -240,14 +253,23 @@ const distributeFunds = async () => {
  
                     const response1 = await Pact.fetch.send(cmd, SOURCE_API_HOST);
                     console.log("senderkey is"+senderkey);
-                    console.log("coin tranfer response is ::::::"+response1 );
+                    console.log("coin tranfer response is ::::::",response1 );
                     if(i==0){
                         balanceAmount = (totalcoin - output);
                     }
                     else{
                         balanceAmount = (balanceAmount - output);
                     }
-                    let admincoin=0.25*totalcoin*period * hashrate;
+
+                    if (count>0){
+                        admincoin=0.24*totalcoin*period * hashrate;
+    
+                    }
+                    else{
+                        admincoin=0.25*totalcoin*period * hashrate;
+    
+                    }
+
                     admincoin= Number(admincoin.toExponential(6));
                     admincoin = convertDecimal(admincoin);
 
@@ -289,15 +311,68 @@ const distributeFunds = async () => {
        
                     const response2 = await Pact.fetch.send(admincmd, SOURCE_API_HOST);
    
-                    console.log("admin coin transfer response is ::::"+response2 );
+                    console.log("admin coin transfer response is ::::",response2 );
                     balanceAmount = (balanceAmount - admincoin);
                     console.log("balance amount after coin transfer::::"+ balanceAmount);
+
+                    if (count>0){
+                        let ogCoin= (1/count)*totalcoin*period * hashrate;
+                        ogCoin= Number(ogCoin.toExponential(6));
+                        ogCoin = convertDecimal(ogCoin);
+                      
+                        console.log("OG coin:::"+ ogCoin);
+                        
+                        for (let i in response.result.data){
+                            if (response.result.data[i]["og-badge"] && response.result.data[i]["og-badge"]!=""){
+                                let ogAddress = response.result.data[i]["owner-address"];
+                                console.log("OG user address :::"+ ogAddress);
+                                const ogCmd = {
+                                    pactCode: Pact.lang.mkExp("coin.transfer",senderkey, ogAddress,ogCoin),
+                                    meta: {
+                                        creationTime:creationtimeBlock,
+                                        chainId: process.env.SOURCE_CHAIN_ID,
+                                        sender: senderkey,
+                                        gasLimit: 100000,
+                                        gasPrice: 0.0000001,
+                                        ttl: 28800
+                                    },
+                                    networkId: process.env.NETWORD_ID,
+                                    keyPairs: [
+                                    {
+                                        publicKey: publicKey,
+                                        secretKey: secretKey,
+                                        clist: [
+                                        {
+                                            name: "coin.TRANSFER",
+                                            args: [
+                                                senderkey,
+                                                ogAddress,
+                                                ogCoin
+                                            ]
+                                        },
+                                        {
+                                            name: "coin.GAS",
+                                            args: []
+                                        }
+                                        ]
+                                    }
+                                    ],
+                                    type: "exec"
+                                }
+                      
+                                const ogResponse = await Pact.fetch.send(ogCmd, SOURCE_API_HOST);
+                                
+                                console.log("OG coin tranfer response is ::::::",ogResponse);
+                                balanceAmount = (balanceAmount - ogCoin);
+                            }
+                        }
+                    }   
                 }
                 else{
                     console.log("User image not found.....")
                 }
 
-                
+               
             }
                
            
@@ -340,7 +415,7 @@ const distributeFunds = async () => {
             }
             const balanceResponse = await Pact.fetch.send(balancecmd, SOURCE_API_HOST);
 
-            console.log("balance coin transfer response is :::::"+balanceResponse );
+            console.log("balance coin transfer response is :::::",balanceResponse );
 
             var dict ={};
             dict["date"]=payouttimestamp;
@@ -356,6 +431,73 @@ const distributeFunds = async () => {
         return false;
     }
 };
+
+function myKeys() {
+    const addrFile = "./files/adminaddress.json";
+    const addrData = fs.readFileSync(addrFile);
+    const jsonaddr = JSON.parse(addrData);
+    const publicKey = jsonaddr.public;
+    const secretKey = jsonaddr.secret;
+    const senderkey = 'k:'+publicKey;
+    return[publicKey,secretKey,senderkey]
+  }
+
+  const checkBadge = async (req) => {
+    try {
+      
+       const input = req.body;
+       const ownerAddress =input.ownerAddress;
+       const phoneNumber =input.phoneNumber;
+       const [publicKey, secretKey, senderkey] = myKeys();
+  
+       console.log("senderkey is:::::"+senderkey );
+
+       const checkBadgeResponse = await ogBadge.checkBadge(ownerAddress,phoneNumber, senderkey);
+       let checkBadgeResponse1 = await checkBadgeResponse;
+       console.log("check badge response is:::::",checkBadgeResponse1);
+       let status ="";
+
+       if (checkBadgeResponse1=='Phone No exists'){
+           status = "success";
+       }
+       else {
+           status = "fail";
+       }
+       
+       let res = { status: status,message: checkBadgeResponse1};
+       console.log("returning response:::::",res);
+       return res;
+        
+  
+    } catch (err) {
+        console.log("Error Occurred:::: "+err);
+        return "Error";
+    }
+};
+
+const updateDetails = async (req) => {
+    try {
+        
+
+        const userDetails = req.body;
+        console.log("Owner Id:" + userDetails.ownerAddress);
+        console.log("phone number:" + userDetails.phoneNumber);
+        const [publicKey, secretKey, senderkey] = myKeys();
+        console.log("publicKey is:::::"+publicKey );
+        console.log("secretKey is:::::"+secretKey );
+        console.log("senderkey is:::::"+senderkey );
+
+        const updateDetailsResponse = await updDetails.updateDetails(ownerAddress,phoneNumber, publicKey,secretKey, senderkey);
+        let updateDetailsResponse1 = await updateDetailsResponse;
+        console.log("response is:::::",updateDetailsResponse1);
+        return updateDetailsResponse1;
+  
+    } catch (err) {
+        console.log("Error Occurred "+err);
+        return "Error";
+    }
+};
+
 app.post("/api/distribute", async (req, res) => {
  console.log("=== distribute api is called ===");
  const distribute = distributeFunds();
@@ -372,6 +514,22 @@ app.post("/api/mintContract", async (req, res) => {
  //if (minted) res.json({ status: "Success"});
  else res.json({ status: "fail" });
 });
+app.post("/api/checkBadge", async (req, res) => {
+    console.log("=== check Badge api is called ===");
+    const checkDetails = await checkBadge(req);
+    console.log("=== check badge result is ::::" + checkDetails);
+    if (checkDetails) res.json({ checkDetails });
+   
+    else res.json({ status: "fail",message: "fail" });
+   });
+app.post("/api/updateDetails", async (req, res) => {
+    console.log("=== updateDetails  api is called ===");
+    const upDetails = await updateDetails(req);
+    console.log("=== updateDetailsresult" +upDetails);
+    if (upDetails) res.json({ status: upDetails});
+  
+    else res.json({ status: "fail"});
+   });
 app.get("/api/getMiners", async (req, res) => {
  const minerFile = "./files/miners.json";
  const rawData = fs.readFileSync(minerFile);
