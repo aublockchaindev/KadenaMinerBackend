@@ -1,0 +1,176 @@
+[
+    {
+        "id": 1,
+        "minerName": "KD6-1",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 2,
+        "minerName": "KD6-2",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 3,
+        "minerName": "KD6-3",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 4,
+        "minerName": "KD6-4",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 5,
+        "minerName": "KD6-5",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 6,
+        "minerName": "KD6-6",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 29.2
+    },
+    {
+        "id": 7,
+        "minerName": "KD5-1",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 8,
+        "minerName": "KD5-2",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 9,
+        "minerName": "KD5-3",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 10,
+        "minerName": "KD5-4",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 11,
+        "minerName": "KD5-5",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 12,
+        "minerName": "KD5-6",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 13,
+        "minerName": "KD5-7",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 14,
+        "minerName": "KD5-8",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 15,
+        "minerName": "KD5-9",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 16,
+        "minerName": "KD5-10",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 17,
+        "minerName": "KD5-11",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 18,
+        "minerName": "KD5-12",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 19,
+        "minerName": "KD5-13",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 18
+    },
+    {
+        "id": 20,
+        "minerName": "K1+-1",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 21,
+        "minerName": "K1+-2",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 22,
+        "minerName": "K1+-3",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 23,
+        "minerName": "K1+-4",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 24,
+        "minerName": "K1+-5",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 25,
+        "minerName": "K1+-6",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 26,
+        "minerName": "K1+-7",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 27,
+        "minerName": "K1+-8",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 28,
+        "minerName": "K1+-9",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    },
+    {
+        "id": 29,
+        "minerName": "K1+-10",
+        "minerAddress": "k:82688f82071d3a4447ca78568f8ce39a94727c455a16b4978c01faeaaad80479",
+        "minerTH": 17
+    }
+]

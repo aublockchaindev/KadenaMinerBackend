@@ -13,6 +13,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 var http = require('http');
+var AWS = require('aws-sdk');
+AWS.config.update({region:'ap-southeast-2'});
 const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
@@ -547,6 +549,44 @@ app.get("/api/balanceHashrate", async (req, res) => {
  const balrawData = fs.readFileSync(balanceFile);
  const balancejson = JSON.parse(balrawData);
  res.json(balancejson);
+});
+app.post('/api/sendOtp', async (req, res) => {
+    console.log("=== sendOtp api is called ===");
+    var otp = Math.floor(100000 + Math.random() * 900000);
+    const MESSAGE = `KOR Security: Your verification code for KOR OG Badge is ${otp}`;
+    const SENDER = "KOR";
+
+    console.log("Message = " + MESSAGE);
+    console.log("Sender = " + SENDER);
+    console.log("Number = " + req.body.number);
+
+    var params = {
+        Message: MESSAGE,
+        PhoneNumber: '+' + req.body.number,
+        MessageAttributes: {
+            'AWS.SNS.SMS.SenderID': {
+                'DataType': 'String',
+                'StringValue': SENDER
+            },
+            'AWS.SNS.SMS.SMSType': {
+                'DataType': 'String',
+                'StringValue': "Transactional"  
+            }
+        }
+    };
+
+    var publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
+
+    publishTextPromise.then(
+        function (data) {
+            console.log(data)
+            res.end(JSON.stringify({ MessageID: data.MessageId, otp: otp, status: "success" }));
+        }).catch(
+            function (err) {
+                console.log("Error: " + err)
+                res.end(JSON.stringify({ Error: err, status: "fail" }));
+            }
+        );
 });
 
 http.createServer(app).listen(9092);
