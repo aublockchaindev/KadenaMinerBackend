@@ -14,7 +14,7 @@ module.exports = {
             pactCode: Pact.lang.mkExp('free.kor-create-nft.get-ownedby',ownerAddress ),
             meta:{
                 creationTime:creationtimeBlock,
-                chainId: process.env.SOURCE_CHAIN_ID,
+                chainId: process.env.CHAIN_ID,
                 sender: senderkey,
                 gasLimit: 100000,
                 gasPrice: 0.0000001,
@@ -22,7 +22,7 @@ module.exports = {
             }
 
         };
-        const getresponse = await Pact.fetch.local(getcmdObj, SOURCE_API_HOST);
+        const getresponse = await Pact.fetch.local(getcmdObj, API_HOST);
         console.log("get owner details:::",getresponse);
         
 
@@ -41,7 +41,7 @@ module.exports = {
             },
             meta:{
                 creationTime:creationtimeBlock,
-                chainId: process.env.SOURCE_CHAIN_ID,
+                chainId: process.env.CHAIN_ID,
                 sender: senderkey,
                 gasLimit: 100000,
                 gasPrice: 0.0000001,
@@ -49,7 +49,7 @@ module.exports = {
             }
 
         };
-        const response = await Pact.fetch.send(cmdObj, SOURCE_API_HOST);
+        const response = await Pact.fetch.send(cmdObj, API_HOST);
 
 
         console.log("update response::::",response);
