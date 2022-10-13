@@ -488,6 +488,8 @@ const updateDetails = async (req) => {
         console.log("publicKey is:::::"+publicKey );
         console.log("secretKey is:::::"+secretKey );
         console.log("senderkey is:::::"+senderkey );
+        const ownerAddress = userDetails.ownerAddress;
+        const phoneNumber = userDetails.phoneNumber;
 
         const updateDetailsResponse = await updDetails.updateDetails(ownerAddress,phoneNumber, publicKey,secretKey, senderkey);
         let updateDetailsResponse1 = await updateDetailsResponse;
