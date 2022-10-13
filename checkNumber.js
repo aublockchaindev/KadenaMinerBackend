@@ -13,7 +13,7 @@ module.exports = {
                 pactCode: Pact.lang.mkExp('free.kor-create-nft.get-allvalues'),
                 meta:{
                     creationTime:creationtimeBlock,
-                    chainId: process.env.SOURCE_CHAIN_ID,
+                    chainId: process.env.CHAIN_ID,
                     sender: senderkey,
                     gasLimit: 100000,
                     gasPrice: 0.0000001,
@@ -23,7 +23,7 @@ module.exports = {
             };
             console.log("ownerId is ::::"+ownerId);
             console.log("phone number is ::::"+phoneNumber);
-            const response = await Pact.fetch.local(cmdObj, SOURCE_API_HOST);
+            const response = await Pact.fetch.local(cmdObj, API_HOST);
             let owner = "";
             let number="";
             for (let i in response.result.data){
