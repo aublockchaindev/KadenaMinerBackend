@@ -265,11 +265,11 @@ const distributeFunds = async () => {
 
                     if (count>0){
                         admincoin=0.24*totalcoin*period * hashrate;
-    
+   
                     }
                     else{
                         admincoin=0.25*totalcoin*period * hashrate;
-    
+   
                     }
 
                     admincoin= Number(admincoin.toExponential(6));
@@ -321,9 +321,9 @@ const distributeFunds = async () => {
                         let ogCoin= (1/count)*totalcoin*period * hashrate;
                         ogCoin= Number(ogCoin.toExponential(6));
                         ogCoin = convertDecimal(ogCoin);
-                      
+                     
                         console.log("OG coin:::"+ ogCoin);
-                        
+                       
                         for (let i in response.result.data){
                             if (response.result.data[i]["og-badge"] && response.result.data[i]["og-badge"]!=""){
                                 let ogAddress = response.result.data[i]["owner-address"];
@@ -361,14 +361,14 @@ const distributeFunds = async () => {
                                     ],
                                     type: "exec"
                                 }
-                      
+                     
                                 const ogResponse = await Pact.fetch.send(ogCmd, SOURCE_API_HOST);
-                                
+                               
                                 console.log("OG coin tranfer response is ::::::",ogResponse);
                                 balanceAmount = (balanceAmount - ogCoin);
                             }
                         }
-                    }   
+                    }  
                 }
                 else{
                     console.log("User image not found.....")
@@ -446,12 +446,12 @@ function myKeys() {
 
   const checkBadge = async (req) => {
     try {
-      
+     
        const input = req.body;
        const ownerAddress =input.ownerAddress;
        const phoneNumber =input.phoneNumber;
        const [publicKey, secretKey, senderkey] = myKeys();
-  
+ 
        console.log("senderkey is:::::"+senderkey );
 
        const checkBadgeResponse = await ogBadge.checkBadge(ownerAddress,phoneNumber, senderkey);
@@ -459,7 +459,7 @@ function myKeys() {
        console.log("check badge response is:::::",checkBadgeResponse1);
        let status ="";
 
-       if (checkBadgeResponse1=='Phone No exists'){
+       if (checkBadgeResponse1=="1"){
            status = "success";
        }
        else {
@@ -469,17 +469,17 @@ function myKeys() {
        let res = { status: status,message: checkBadgeResponse1};
        console.log("returning response:::::",res);
        return res;
-        
-  
+       
+ 
     } catch (err) {
         console.log("Error Occurred:::: "+err);
-        return "Error";
+        return "5";
     }
 };
 
 const updateDetails = async (req) => {
     try {
-        
+       
 
         const userDetails = req.body;
         console.log("Owner Id:" + userDetails.ownerAddress);
@@ -495,7 +495,7 @@ const updateDetails = async (req) => {
         let updateDetailsResponse1 = await updateDetailsResponse;
         console.log("response is:::::",updateDetailsResponse1);
         return updateDetailsResponse1;
-  
+ 
     } catch (err) {
         console.log("Error Occurred "+err);
         return "Error";
@@ -531,7 +531,7 @@ app.post("/api/updateDetails", async (req, res) => {
     const upDetails = await updateDetails(req);
     console.log("=== updateDetailsresult" +upDetails);
     if (upDetails) res.json({ status: upDetails});
-  
+ 
     else res.json({ status: "fail"});
    });
 app.get("/api/getMiners", async (req, res) => {
