@@ -29,11 +29,11 @@ module.exports = {
             for (let i in response.result.data){
                 if (response.result.data[i]['phone-number'] == phoneNumber){
                     console.log("phone number exist::::");
-                    return "Phone No exists"
+                    return "2"
 
                 }
-                
-                else { 
+               
+                else {
                     if (response.result.data[i]['owner-address']==ownerId){
                         owner = "true";
                         if (response.result.data[i]['phone-number']==''){
@@ -43,7 +43,7 @@ module.exports = {
                             number = "true";
                         }
                     }
-            
+           
                     else{
                         if (owner!="true"){
                         owner = "false";
@@ -53,25 +53,25 @@ module.exports = {
             }
             if (owner == "true" && number == "false"){
                 console.log("number doesnt exist::::");
-                return "number doesnt exist"
+                return "1"
             }
             else if (owner == "true" && number == "true"){
                 console.log("different number exist::::");
-                return "different number exist"
+                return "3"
 
             }
             else if (owner == "false" ){
                 console.log("owner not found::::");
-                return "owner not found"
+                return "4"
 
             }
             else{
-                return "Error"
+                return "5"
             }
         }
         catch(err){
-            console.log("Error::::"+err);
-            return "Error"
+            console.log("Error::::",err);
+            return "5"
         }
     }
 }
