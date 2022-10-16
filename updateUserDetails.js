@@ -33,7 +33,7 @@ module.exports = {
         console.log("OG badge is::::"+ogBadge);
 
         const cmdObj = {
-            networkId: NETWORK_ID,
+            networkId: process.env.NETWORD_ID,
             pactCode: Pact.lang.mkExp('free.kor-create-nft.update-ogdata', nftID ,ogBadge, phoneNumber),
             keyPairs: {
                 publicKey: publicKey,
