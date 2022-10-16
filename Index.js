@@ -472,8 +472,8 @@ function myKeys() {
        
  
     } catch (err) {
-        console.log("Error Occurred:::: "+err);
-        return "5";
+        console.log("Error Occurred:::: ", err);
+        return { status: "fail",message: "5"};
     }
 };
 
