@@ -1,6 +1,7 @@
 const Pact = require("pact-lang-api");
 require('dotenv').config();
 const creationtimeBlock = Math.floor(Date.now()/1000);
+const creationTime = () => Math.round((new Date).getTime() / 1000)-60;
 const API_HOST = process.env.API_HOST;
 const SOURCE_API_HOST = process.env.SOURCE_API_HOST;
 const { v4: uuidv4 } = require('uuid');
@@ -13,7 +14,7 @@ module.exports = {
             networkId: process.env.NETWORD_ID,
             pactCode: Pact.lang.mkExp('free.kor-create-nft.get-ownedby',ownerAddress ),
             meta:{
-                creationTime:creationtimeBlock,
+                creationTime: creationTime(),
                 chainId: process.env.CHAIN_ID,
                 sender: senderkey,
                 gasLimit: 100000,
@@ -40,7 +41,7 @@ module.exports = {
                 secretKey: secretKey,
             },
             meta:{
-                creationTime:creationtimeBlock,
+                creationTime: creationTime(),
                 chainId: process.env.CHAIN_ID,
                 sender: senderkey,
                 gasLimit: 100000,
