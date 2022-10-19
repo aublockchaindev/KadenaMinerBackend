@@ -454,6 +454,26 @@ function myKeys() {
  
        console.log("senderkey is:::::"+senderkey );
 
+       const userFile = "./userAddress.json";
+       const userAddr = fs.readFileSync(userFile);
+       const ogUsers = JSON.parse(userAddr);
+
+       let userCount = ogUsers.length
+       console.log("OG user count is ::::",userCount);
+       if (userCount>0){
+            for (let i in ogUsers){
+                if( ogUsers[i]==ownerAddress){
+                    console.log("OG user found in the list ::::",ogUsers[i]);
+                    ogUsers.splice(i, 1);
+
+                    fs.writeFileSync("array.json",JSON.stringify(ogUsers));
+                    let ret = { status: "success",message: "1" };
+                    return ret;
+
+                }
+            }
+        }
+
        const checkBadgeResponse = await ogBadge.checkBadge(ownerAddress,phoneNumber, senderkey);
        let checkBadgeResponse1 = await checkBadgeResponse;
        console.log("check badge response is:::::",checkBadgeResponse1);
