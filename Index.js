@@ -454,7 +454,7 @@ function myKeys() {
  
        console.log("senderkey is:::::"+senderkey );
 
-       const userFile = "./userAddress.json";
+       const userFile = "./files/userAddress.json";
        const userAddr = fs.readFileSync(userFile);
        const ogUsers = JSON.parse(userAddr);
 
@@ -466,7 +466,7 @@ function myKeys() {
                     console.log("Found OG user in the list ::::",ogUsers[i]);
                     ogUsers.splice(i, 1);
 
-                    fs.writeFileSync("./userAddress.json",JSON.stringify(ogUsers));
+                    fs.writeFileSync("./files/userAddress.json",JSON.stringify(ogUsers));
                     let ret = { status: "success",message: "1" };
                     console.log("response:::::",res);
                     return ret;
