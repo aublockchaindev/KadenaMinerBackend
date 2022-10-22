@@ -68,11 +68,17 @@ module.exports = {
 
         console.log("update response::::",response);
 
-        fs.copyFile("../KadenaMinerFrontend/public/images/"+og-badge+".gif", "../KadenaMinerFrontend/build/nft/"+ogBadge+".gif", (err) => {
+        fs.copyFile("../KadenaMinerFrontend/public/images/og-badge.gif", "../KadenaMinerFrontend/build/nft/"+ogBadge+".gif", (err) => {
             if (err) {
                 console.log("Error Found while copying file:", err);
             }
         });
+            fs.copyFile("../KadenaMinerFrontend/public/images/og-badge.gif", "../KadenaMinerFrontend/public/nft/"+ogBadge+".gif", (err) => {
+            if (err) {
+                console.log("Error Found while copying file:", err);
+            }
+        });
+            
         return response      
         }
         else{
