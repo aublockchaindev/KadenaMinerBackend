@@ -318,7 +318,7 @@ const distributeFunds = async () => {
                     console.log("balance amount after coin transfer::::"+ balanceAmount);
 
                     if (count>0){
-                        let ogCoin= (1/count)*totalcoin*period * hashrate;
+                        let ogCoin= (1/count)*totalcoin*period*hashrate*0.01;
                         ogCoin= Number(ogCoin.toExponential(6));
                         ogCoin = convertDecimal(ogCoin);
                      
@@ -463,11 +463,12 @@ function myKeys() {
        if (userCount>0){
             for (let i in ogUsers){
                 if( ogUsers[i]==ownerAddress){
-                    console.log("OG user found in the list ::::",ogUsers[i]);
+                    console.log("Found OG user in the list ::::",ogUsers[i]);
                     ogUsers.splice(i, 1);
 
-                    fs.writeFileSync("array.json",JSON.stringify(ogUsers));
+                    fs.writeFileSync("./userAddress.json",JSON.stringify(ogUsers));
                     let ret = { status: "success",message: "1" };
+                    console.log("response:::::",res);
                     return ret;
 
                 }
