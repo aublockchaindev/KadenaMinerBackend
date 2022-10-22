@@ -36,17 +36,20 @@ module.exports = {
                 else {
                     if (response.result.data[i]['owner-address']==ownerId){
                         owner = "true";
-                        if (response.result.data[i]['phone-number']==''){
-                            number = "false"
+                        console.log("phone number::::",response.result.data[i]['phone-number']);
+                        if (response.result.data[i]['phone-number'] && response.result.data[i]['phone-number']!=''){
+                            number = "true"
                         }
                         else{
-                            number = "true";
+                            if (number!="true"){
+                                number = "false";
+                            }
                         }
                     }
            
                     else{
                         if (owner!="true"){
-                        owner = "false";
+                            owner = "false";
                         }
                     }
                 }
