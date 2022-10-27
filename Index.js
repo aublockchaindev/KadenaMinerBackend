@@ -14,7 +14,7 @@ const app = express();
 const fs = require("fs");
 var http = require('http');
 var AWS = require('aws-sdk');
-AWS.config.update({region:'ap-southeast-2'});
+AWS.config.update({region:'us-east-2'});
 const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
@@ -578,6 +578,7 @@ app.post('/api/sendOtp', async (req, res) => {
     var otp = Math.floor(100000 + Math.random() * 900000);
     const MESSAGE = `KOR Security: Your verification code for KOR OG Badge is ${otp}`;
     const SENDER = "KOR";
+    const ORIGIN = "+16614436651";
 
     console.log("Message = " + MESSAGE);
     console.log("Sender = " + SENDER);
@@ -591,13 +592,17 @@ app.post('/api/sendOtp', async (req, res) => {
                 'DataType': 'String',
                 'StringValue': SENDER
             },
+            'AWS.MM.SMS.OriginationNumber': {
+                'DataType': 'String',
+                'StringValue': ORIGIN
+            },            
             'AWS.SNS.SMS.SMSType': {
                 'DataType': 'String',
                 'StringValue': "Transactional"  
             }
         }
     };
-
+    
     var publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31' }).publish(params).promise();
 
     publishTextPromise.then(
