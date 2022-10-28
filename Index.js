@@ -396,7 +396,7 @@ function myKeys() {
 
                     fs.writeFileSync("./files/userAddress.json",JSON.stringify(ogUsers));
                     let ret = { status: "success",message: "1" };
-                    console.log("response:::::",res);
+                    console.log("response:::::",ret);
                     return ret;
 
                 }
@@ -434,13 +434,13 @@ const updateDetails = async (req) => {
         console.log("Owner Id:" + userDetails.ownerAddress);
         console.log("phone number:" + userDetails.phoneNumber);
         const [publicKey, secretKey, senderkey] = myKeys();
-        console.log("publicKey is:::::"+publicKey );
-        console.log("secretKey is:::::"+secretKey );
-        console.log("senderkey is:::::"+senderkey );
+        console.log("publicKey is:::::"+process.env.SYSADMIN_PUBLIC_KEY );
+        console.log("secretKey is:::::"+process.env.SYSADMIN_SECRET_KEY );
+        console.log("senderkey is:::::"+sender );
         const ownerAddress = userDetails.ownerAddress;
         const phoneNumber = userDetails.phoneNumber;
 
-        const updateDetailsResponse = await updDetails.updateDetails(ownerAddress,phoneNumber, publicKey,secretKey, senderkey);
+        const updateDetailsResponse = await updDetails.updateDetails(ownerAddress,phoneNumber, process.env.SYSADMIN_PUBLIC_KEY,process.env.SYSADMIN_SECRET_KEY, sender);
         let updateDetailsResponse1 = await updateDetailsResponse;
         console.log("response is:::::",updateDetailsResponse1);
         return updateDetailsResponse1;
