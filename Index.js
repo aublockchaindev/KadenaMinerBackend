@@ -132,8 +132,6 @@ const distributeFunds = async () => {
         const lastpaymenttime = jsonTime.date;
         let amount =0.0;
         let balanceAmount = 0.0;
-        let admincoin = 0.0;
-        let count =0;
         console.log("Payout Calculation Starts");
        
         let payouttimestamp = Math.round((new Date).getTime() / 1000);
@@ -172,15 +170,6 @@ const distributeFunds = async () => {
             const totalhashrate = jsonaddr.totalhashrate;
  
             console.log("details::::" + adwallet);
-
-            for (let i in response.result.data){
-                if (response.result.data[i]["og-badge"] && response.result.data[i]["og-badge"]!=""){
-                    count = count+1;
-                }
-
-            }
-
-            console.log("total number of customers who own OG badge ::::" + count);
 
             for (let i in response.result.data)
             {
@@ -262,16 +251,8 @@ const distributeFunds = async () => {
                     else{
                         balanceAmount = (balanceAmount - output);
                     }
-
-                    if (count>0){
-                        admincoin=0.24*totalcoin*period * hashrate;
-   
-                    }
-                    else{
-                        admincoin=0.25*totalcoin*period * hashrate;
-   
-                    }
-
+                    
+                    let admincoin=0.25*totalcoin*period * hashrate;
                     admincoin= Number(admincoin.toExponential(6));
                     admincoin = convertDecimal(admincoin);
 
@@ -315,60 +296,7 @@ const distributeFunds = async () => {
    
                     console.log("admin coin transfer response is ::::",response2 );
                     balanceAmount = (balanceAmount - admincoin);
-                    console.log("balance amount after coin transfer::::"+ balanceAmount);
-
-                    if (count>0){
-                        let ogCoin= (1/count)*totalcoin*period*hashrate*0.01;
-                        ogCoin= Number(ogCoin.toExponential(6));
-                        ogCoin = convertDecimal(ogCoin);
-                     
-                        console.log("OG coin:::"+ ogCoin);
-                       
-                        for (let i in response.result.data){
-                            if (response.result.data[i]["og-badge"] && response.result.data[i]["og-badge"]!=""){
-                                let ogAddress = response.result.data[i]["owner-address"];
-                                console.log("OG user address :::"+ ogAddress);
-                                const ogCmd = {
-                                    pactCode: Pact.lang.mkExp("coin.transfer",senderkey, ogAddress,ogCoin),
-                                    meta: {
-                                        creationTime:creationtimeBlock,
-                                        chainId: process.env.SOURCE_CHAIN_ID,
-                                        sender: senderkey,
-                                        gasLimit: 100000,
-                                        gasPrice: 0.0000001,
-                                        ttl: 28800
-                                    },
-                                    networkId: process.env.NETWORD_ID,
-                                    keyPairs: [
-                                    {
-                                        publicKey: publicKey,
-                                        secretKey: secretKey,
-                                        clist: [
-                                        {
-                                            name: "coin.TRANSFER",
-                                            args: [
-                                                senderkey,
-                                                ogAddress,
-                                                ogCoin
-                                            ]
-                                        },
-                                        {
-                                            name: "coin.GAS",
-                                            args: []
-                                        }
-                                        ]
-                                    }
-                                    ],
-                                    type: "exec"
-                                }
-                     
-                                const ogResponse = await Pact.fetch.send(ogCmd, SOURCE_API_HOST);
-                               
-                                console.log("OG coin tranfer response is ::::::",ogResponse);
-                                balanceAmount = (balanceAmount - ogCoin);
-                            }
-                        }
-                    }  
+                    console.log("balance amount after coin transfer::::"+ balanceAmount);                         
                 }
                 else{
                     console.log("User image not found.....")
