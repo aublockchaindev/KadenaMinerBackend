@@ -1,5 +1,6 @@
 const Pact = require("pact-lang-api");
 require('dotenv').config();
+const { encrypt, decrypt } = require('./crypt');
 const creationtimeBlock = Math.floor(Date.now()/1000);
 const API_HOST = process.env.API_HOST;
 const SOURCE_API_HOST = process.env.SOURCE_API_HOST;
@@ -26,8 +27,15 @@ module.exports = {
             const response = await Pact.fetch.local(cmdObj, API_HOST);
             let owner = "";
             let number="";
+            let dec_number ="";
             for (let i in response.result.data){
-                if (response.result.data[i]['phone-number'] == phoneNumber){
+                if (response.result.data[i]['phone-number'] && response.result.data[i]['phone-number']!=''){
+                
+                    dec_number = decrypt(response.result.data[i]['phone-number']);
+                    console.log("enc phone number::::",response.result.data[i]['phone-number']);
+                    console.log("dec number::::",dec_number);
+                }
+                if (dec_number && dec_number== phoneNumber){               
                     console.log("phone number exist::::");
                     return "2"
 
