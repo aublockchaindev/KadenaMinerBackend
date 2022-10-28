@@ -251,7 +251,7 @@ const distributeFunds = async () => {
                     else{
                         balanceAmount = (balanceAmount - output);
                     }
-                    
+                   
                     let admincoin=0.25*totalcoin*period * hashrate;
                     admincoin= Number(admincoin.toExponential(6));
                     admincoin = convertDecimal(admincoin);
@@ -296,7 +296,7 @@ const distributeFunds = async () => {
    
                     console.log("admin coin transfer response is ::::",response2 );
                     balanceAmount = (balanceAmount - admincoin);
-                    console.log("balance amount after coin transfer::::"+ balanceAmount);                         
+                    console.log("balance amount after coin transfer::::"+ balanceAmount);                        
                 }
                 else{
                     console.log("User image not found.....")
@@ -388,20 +388,65 @@ function myKeys() {
 
        let userCount = ogUsers.length
        console.log("OG user count is ::::",userCount);
+       let user ="";
+       let ret ="";
        if (userCount>0){
-            for (let i in ogUsers){
-                if( ogUsers[i]==ownerAddress){
-                    console.log("Found OG user in the list ::::",ogUsers[i]);
-                    ogUsers.splice(i, 1);
+        for (let i in ogUsers){
+            //console.log("user is :::::",ogUsers[i]);
+            if( ogUsers[i]==ownerAddress){
+                console.log("Found OG user in the list ::::",ogUsers[i]);
+                //console.log("user is :",ogUsers[i]);
+                let checknftID ="";
+                const getcmdObj = {
+                    networkId: process.env.NETWORD_ID,
+                    pactCode: Pact.lang.mkExp('free.kor-create-nft.get-allvalues'),
+                    meta:{
+                        creationTime: creationtimeBlock,
+                        chainId: process.env.CHAIN_ID,
+                        sender: senderkey,
+                        gasLimit: 100000,
+                        gasPrice: 0.0000001,
+                        ttl: 28800
+                    }
 
-                    fs.writeFileSync("./files/userAddress.json",JSON.stringify(ogUsers));
-                    let ret = { status: "success",message: "1" };
-                    console.log("response:::::",ret);
-                    return ret;
-
+                };
+                const getresponse = await Pact.fetch.local(getcmdObj, API_HOST);
+                for (let i in getresponse.result.data){
+                    if (getresponse.result.data[i]['owner-address'] == ownerAddress){
+                        if (getresponse.result.data[i]['og-badge'] && getresponse.result.data[i]['og-badge']!=''){
+                            console.log("Existing OG badge ....",getresponse.result.data[i]['og-badge'] );
+                            continue
+                    
+                        }
+                        else{
+                            if (getresponse.result.data[i]['nftid'] && getresponse.result.data[i]['nftid']!=''){
+                                checknftID = getresponse.result.data[i]['nftid'];
+                                console.log("nft id is ::::::",checknftID )
+                                break;
+                            }
+                        }
+                    }
                 }
+                console.log("nft id available is :::::",checknftID )
+                if (checknftID){
+                    ogUsers.splice(i, 1);
+                    //console.log(ogUsers);
+                    fs.writeFileSync("array.json",JSON.stringify(ogUsers));
+                    ret = { status: "success",message: "1" };
+                    console.log("check badge response for whitelisted user:::::",ret);
+                    return ret;
+                }
+                else{
+                    ret = { status: "fail",message: "4" };
+                    console.log("nft id not available....");
+                    console.log("check badge response for whitelisted user:::::",ret);
+                    return ret;
+            
+                }
+
             }
         }
+    }
 
        const checkBadgeResponse = await ogBadge.checkBadge(ownerAddress,phoneNumber, senderkey);
        let checkBadgeResponse1 = await checkBadgeResponse;
