@@ -24,3 +24,20 @@ const encrypt = text => {
     content: encrypted.toString('hex')
   }
 }
+
+
+
+const decrypt = hash => {
+  const decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv)
+
+  const decrpyted = Buffer.concat([decipher.update(Buffer.from(hash, 'hex')), decipher.final()])
+
+  return decrpyted.toString()
+}
+
+
+
+module.exports = {
+  encrypt,
+  decrypt
+}
