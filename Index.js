@@ -19,8 +19,8 @@ const netId = "TEST_NET_ID";
 const NETWORK_ID = 'testnet04';
 const CHAIN_ID = '1';
 //const createdDate = new Date();
-const creationTime = () => Math.round((new Date).getTime() / 1000)-60;
-const creationtimeBlock = Math.floor(Date.now()/1000)-60;
+//const creationTime = () => Math.round((new Date).getTime() / 1000)-60;
+//const creationtimeBlock = Math.floor(Date.now()/1000)-60;
 let pbkey = process.env.SYSADMIN_PUBLIC_KEY
 let sender = 'k:'+pbkey;
 
@@ -37,11 +37,12 @@ const mintContractService = async (req) => {
     try {
         const nftId = uuidv4();
         const mintInput = req.body;
+        let creationTime = () => Math.round((new Date).getTime() / 1000)-60;
         console.log("Created date:" + mintInput.createdDate);
         console.log("MintedTh:" + mintInput.hashRate);
         console.log("Owner Address:" + mintInput.ownerAddress);
         console.log("nftid is:" + nftId);
-        console.log("creationTime:"+ creationtimeBlock);
+        console.log("creationTime:"+ creationTime());
         const createdDate = "" + mintInput.createdDate + "";
         console.log("EnvID:" + process.env.SYSADMIN_PUBLIC_KEY);
         const cmdObj = {
@@ -103,6 +104,7 @@ const mintContractService = async (req) => {
 
 const distributeFunds = async () => {
     try {
+        let creationtimeBlock = Math.floor(Date.now()/1000)-60;
 
         console.log("Inside Distribute Function");
         console.log("Creation Time :::::"+creationtimeBlock);
@@ -374,6 +376,7 @@ function myKeys() {
 
   const checkBadge = async (req) => {
     try {
+       let creationtimeBlock = Math.floor(Date.now()/1000)-60;
      
        const input = req.body;
        const ownerAddress =input.ownerAddress;
@@ -521,7 +524,7 @@ app.post("/api/checkBadge", async (req, res) => {
     else res.json({ status: "fail",message: "fail" });
    });
 app.post("/api/updateDetails", async (req, res) => {
-    console.log("=== updateDetails  api is called ===");
+    console.log("=== updateDetails api is called ===");
     const upDetails = await updateDetails(req);
     console.log("=== updateDetailsresult" +upDetails);
     if (upDetails) res.json({ status: upDetails});
